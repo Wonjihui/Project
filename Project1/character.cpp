@@ -4,16 +4,16 @@
 using namespace std;
 
 Character::Character(const std::string& name, int level, int health, int attack, int experience)
-	:name_(name), level_(level), health_(health), attack_(attack), experience_(experience_)
+	:name_(name), level_(level), health_(health), attack_(attack), experience_(experience)
 {}
 
 void Character::displayStats() const
 {
-	cout << "Ä³¸¯ÅÍ:" << name_ << endl;
-	cout << "·¹º§:" << level_ << endl;
-	cout << "Ã¼·Â:" << health_ << endl;
-	cout << "°ø°Ý·Â:" << attack_ << endl;
-	cout << "°æÇèÄ¡:" << experience_ << endl;
+	cout << "ìºë¦­í„°:" << name_ << endl;
+	cout << "ë ˆë²¨:" << level_ << endl;
+	cout << "ì²´ë ¥:" << health_ << endl;
+	cout << "ê³µê²©ë ¥:" << attack_ << endl;
+	cout << "ê²½í—˜ì¹˜:" << experience_ << endl;
 }
 
 int main() {
@@ -23,7 +23,7 @@ int main() {
 	cout << "                                                 Level Up! Wawa!                                                     " << endl;
 	cout << "======================================================================================================================== " << endl;
 
-	cout << "Ä³¸¯ÅÍ ÀÌ¸§À» ÀÔ·ÂÇØ ÁÖ¼¼¿ä: ";
+	cout << "ìºë¦­í„° ì´ë¦„ì„ ìž…ë ¥í•´ ì£¼ì„¸ìš”: ";
     getline(std::cin, name);
 
 	Character myCharacter(name);
