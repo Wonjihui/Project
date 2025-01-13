@@ -1,8 +1,8 @@
-#include "Monster.h"
+ï»¿#include "Monster.h"
 #include <iostream>
 
 
-int generateRandomValue(int min, int max)// Ã¼·Â,°ø°İ·Â ¹üÀ§ ÁöÁ¤À» À§ÇÑ ·£´ı°ª »ı¼º ÇÔ¼ö
+int generateRandomValue(int min, int max)// ì²´ë ¥,ê³µê²©ë ¥ ë²”ìœ„ ì§€ì •ì„ ìœ„í•œ ëœë¤ê°’ ìƒì„± í•¨ìˆ˜
 {
 	return rand() % (max - min + 1) + min;
 }
