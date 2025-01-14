@@ -15,21 +15,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sorce\main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="sorce\Character.cpp">
+    <ClCompile Include="source\Character.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Monster\Monster.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="GameManager\GameManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sorce\Character.h">
+    <ClInclude Include="source\Character.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Monster\Monster.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\GameManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

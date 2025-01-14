@@ -117,3 +117,35 @@ void Samoyed::takeDamage(int damage)
 {
 	health -= damage;
 }
+
+Human::Human(int level)
+{
+	name = "Human";
+	health = generateRandomValue(level * 30, level * 45);
+	attack = generateRandomValue(level * 7.5, level * 15);
+}
+
+std::string Human::getName() const
+{
+	return name;
+}
+
+int Human::getHealth() const
+{
+	return health;
+}
+
+int Human::getAttack() const
+{
+	return attack;
+}
+
+void Human::takeDamage(int damage)
+{
+	health -= damage;
+	if (health <= 0)
+	{
+		std::cout << "축하합니다! 게임 엔딩을 보셨습니다!" << std::endl;
+	}
+}
+

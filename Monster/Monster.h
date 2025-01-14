@@ -74,5 +74,21 @@ public:
     void takeDamage(int damage) override;
 };
 
+class Human : public Monster
+{
+private:
+    std::string name;
+    int health;
+    int attack;
+
+public:
+    Human(int level);
+    std::string getName() const override;
+    int getHealth() const override;
+    int getAttack() const override;
+    void takeDamage(int damage) override;
+};
+
+
 #endif 
 
