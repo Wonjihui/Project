@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{2cd47e6f-1593-4a41-b21d-eccf07cac7f1}</ProjectGuid>
-    <RootNamespace>character</RootNamespace>
+    <ProjectGuid>{a38e8f3c-d02c-4828-b85a-6b8a6b5f38c8}</ProjectGuid>
+    <RootNamespace>gamemanager</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,7 +127,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="character.cpp" />
     <ClCompile Include="GameManager.cpp" />
   </ItemGroup>
   <ItemGroup>
