@@ -33,7 +33,7 @@ void HealthItem::use(Character* character) {
         newHealth = character->getMaxHealth();
     }
     character->setHealth(newHealth);
-    std::cout << getName() << " À»(¸¦) »ç¿ëÇß½À´Ï´Ù! Ã¼·ÂÀÌ " << getEffectValue() << " ¸¸Å­ È¸º¹µÇ¾ú½À´Ï´Ù." << std::endl;
+    std::cout << getName() << " ì„(ë¥¼) ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤! ì²´ë ¥ì´ " << getEffectValue() << " ë§Œí¼ íšŒë³µë˜ì—ˆìŠµë‹ˆë‹¤." << std::endl;
 }
 
 // AttackBoost class
@@ -44,7 +44,7 @@ AttackBoost::AttackBoost(const std::string& name, int boostValue)
 void AttackBoost::use(Character* character) {
     int newAttack = character->getAttack() + getEffectValue();
     character->setAttack(newAttack);
-    std::cout << getName() << " À»(¸¦) »ç¿ëÇß½À´Ï´Ù! °ø°Ý·ÂÀÌ " << getEffectValue() << " ¸¸Å­ Áõ°¡Çß½À´Ï´Ù." << std::endl;
+    std::cout << getName() << " ì„(ë¥¼) ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤! ê³µê²©ë ¥ì´ " << getEffectValue() << " ë§Œí¼ ì¦ê°€í–ˆìŠµë‹ˆë‹¤." << std::endl;
 }
 
 
@@ -80,16 +80,16 @@ void Character::setAttack(int attack) {
 }
 
 void Character::displayStats() const {
-    std::cout << "Ä³¸¯ÅÍ: " << name_ << std::endl;
-    std::cout << "·¹º§: " << level_ << std::endl;
-    std::cout << "Ã¼·Â: " << health_ << " / " << maxHealth_ << std::endl;
-    std::cout << "°ø°Ý·Â: " << attack_ << std::endl;
-    std::cout << "°æÇèÄ¡: " << experience_ << " / 100" << std::endl;
+    std::cout << "ìºë¦­í„°: " << name_ << std::endl;
+    std::cout << "ë ˆë²¨: " << level_ << std::endl;
+    std::cout << "ì²´ë ¥: " << health_ << " / " << maxHealth_ << std::endl;
+    std::cout << "ê³µê²©ë ¥: " << attack_ << std::endl;
+    std::cout << "ê²½í—˜ì¹˜: " << experience_ << " / 100" << std::endl;
 }
 
 void Character::gainExperience(int expGain) {
     experience_ += expGain;
-    std::cout << name_ << " Àº(´Â) °æÇèÄ¡ " << expGain << " À» ¾ò¾ú´Ù!" << std::endl;
+    std::cout << name_ << " ì€(ëŠ”) ê²½í—˜ì¹˜ " << expGain << " ì„ ì–»ì—ˆë‹¤!" << std::endl;
 
     if (experience_ >= 100) {
         levelUp(experience_ / 100);
@@ -110,7 +110,7 @@ void Character::levelUp(int levels) {
     maxHealth_ += levels * 20;
     attack_ += levels * 5;
     health_ = maxHealth_;
-    std::cout << name_ << " ·¹º§ ¾÷! Lv." << level_ << "!" << std::endl;
+    std::cout << name_ << " ë ˆë²¨ ì—…! Lv." << level_ << "!" << std::endl;
 }
 
 void Character::useItem(Item* item) {
@@ -126,11 +126,11 @@ int main() {
     std::cout << "======================================================================================================================== " << std::endl;
 
     while (true) {
-        std::cout << "Ä³¸¯ÅÍ ÀÌ¸§À» ÀÔ·ÂÇØ ÁÖ¼¼¿ä: ";
+        std::cout << "ìºë¦­í„° ì´ë¦„ì„ ìž…ë ¥í•´ ì£¼ì„¸ìš”: ";
         std::getline(std::cin, name);
 
         if (name.empty()) {
-            std::cout << "ÀÌ¸§ÀÌ ÀÔ·ÂµÇÁö ¾Ê¾Ò½À´Ï´Ù...! ´Ù½Ã ÀÔ·ÂÇØ ÁÖ¼¼¿ä...!" << std::endl;
+            std::cout << "ì´ë¦„ì´ ìž…ë ¥ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤...! ë‹¤ì‹œ ìž…ë ¥í•´ ì£¼ì„¸ìš”...!" << std::endl;
         }
         else {
             break;
@@ -146,8 +146,8 @@ int main() {
     myCharacter->gainExperience(60);
     myCharacter->displayStats();
 
-    HealthItem potion("°³ ²­", 50);
-    AttackBoost sword("»ç·á", 10);
+    HealthItem potion("ê°œ ê»Œ", 50);
+    AttackBoost sword("ì‚¬ë£Œ", 10);
 
     myCharacter->useItem(&potion);
     myCharacter->displayStats();
