@@ -13,6 +13,7 @@ public:
 	Monster* generateMonster(int level);
 	void battle(Character* player);
 	void displayInventory(Character* player);
+	void visitshop(Character* player);
 
 	int totalGold = 0;
 	int totaluseitem = 0;

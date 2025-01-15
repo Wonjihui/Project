@@ -5,6 +5,7 @@
 #include <iostream>
 #include<cstdlib>
 #include<ctime>
+#include<shop.h>
 
 Monster* GameManager::generateMonster(int level)
 {
@@ -58,4 +59,9 @@ void GameManager::displayInventory(Character* player)
 	for (size_t i = 0; i < item.size(); i++) {
 		cout << "- " << item.name << endl;
 	}
+}
+
+void GameManager::visitshop(Character* player)
+{
+	Shop::GetInstance()->DisplayItems();
 }
