@@ -14,8 +14,9 @@ private:
     int attack_;
     int experience_;
     int gold_;
+	int totalKillMonster;
 
-    Character(const std::string& name, int level = 1, int health = 200, int attack = 30, int experience = 0, int gold = 0);
+    Character(const std::string& name, int level = 1, int health = 200, int attack = 30, int experience = 0, int gold = 0, int totalKillMonster=0);
 
 
 
@@ -36,6 +37,7 @@ public:
     void gainGold(int amount);
     std::string getName() const;
     void takeDamage(int damage);
+    void setTotalKillMonster();
 
 
     void setHealth(int health);

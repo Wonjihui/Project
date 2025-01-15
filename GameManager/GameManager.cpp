@@ -49,13 +49,15 @@ Human* GameManager::generateBossMonster(int level)
 void GameManager::battle(Character* player)
 {
     Character* InsPlayer = player;
-    InsPlayer->displayStats();
+	InsPlayer->displayStats();
+
 
     cout << "게임을 시작합니다!" << endl << endl;
     while (InsPlayer != nullptr)
     {
         int move = 0;
-        cout << "앞으로 이동 : 1 " << endl
+        cout << endl
+            <<"앞으로 이동 : 1 " << endl
             << "상점 이용 : 2" << endl
             << "스텟 확인 : 3" << endl
             << "인벤토리 : 4" << endl;
@@ -73,13 +75,13 @@ void GameManager::battle(Character* player)
             {
                 // 일반 몬스터 생성
                 enemy = generateMonster(InsPlayer->getLevel());
-                cout << "몬스터 " << enemy->getName() << " (이)가 나타났습니다!" << endl;
+                cout << "몬스터 " << enemy->getName() << " 이(가) 나타났습니다!" << endl;
             }
             else
             {
                 // 보스 몬스터 생성
                 enemy = generateBossMonster(InsPlayer->getLevel());
-                cout << "보스 몬스터 " << enemy->getName() << " 이 나타났습니다!" << endl;
+                cout << "보스 몬스터 " << enemy->getName() << " 이(가) 나타났습니다!" << endl;
             }
 
             cout << enemy->getName() << " HP: " << enemy->getHealth() << " ATK: " << enemy->getAttack() << endl << endl;
@@ -88,29 +90,34 @@ void GameManager::battle(Character* player)
             {
                 // 캐릭터가 몬스터 공격
                 enemy->takeDamage(InsPlayer->getAttack());
-                cout << InsPlayer->getName() << "가 " << enemy->getName() << "를 공격했다! " << enemy->getName() << "의 남은 HP: " << enemy->getHealth() << endl;
-
                 if (enemy->getHealth() <= 0)
                 {
-                    cout << enemy->getName() << "가 쓰러졌다! 승리!" << endl;
-
+                    cout << InsPlayer->getName() << "이(가) " << enemy->getName() << "을(를) 공격했다! " << enemy->getName() << "의 남은 HP: 0" << endl;
+                    cout << enemy->getName() << "이(가) 쓰러졌다! 승리!" << endl;
+                    InsPlayer->setTotalKillMonster();  
                     InsPlayer->gainGold(RandomValue(10, 20));
                     InsPlayer->gainExperience();
-                    cout << InsPlayer->getName() << "가 전리품을 챙겼습니다!" << endl;
-                    InsPlayer->displayStats();
+                    cout << InsPlayer->getName() << "이(가) 전리품을 챙겼습니다!" << endl;
 
                     delete enemy;
                     enemy = nullptr;
                     break;
+				}
+                else
+                {
+                    cout << InsPlayer->getName() << "이(가) " << enemy->getName() << "을(를) 공격했다! " << enemy->getName() << "의 남은 HP: " << enemy->getHealth() << endl;
                 }
+                
+
+                
 
                 // 몬스터가 캐릭터 공격
                 InsPlayer->takeDamage(enemy->getAttack());
-                cout << enemy->getName() << "가 " << InsPlayer->getName() << "를 공격했다! " << InsPlayer->getName() << "의 남은 HP: " << InsPlayer->getHealth() << endl;
+                cout << enemy->getName() << "이(가) " << InsPlayer->getName() << "을(를) 공격했다! " << InsPlayer->getName() << "의 남은 HP: " << InsPlayer->getHealth() << endl;
 
                 if (InsPlayer->getHealth() <= 0)
                 {
-                    cout << InsPlayer->getName() << "가 쓰러졌다! 게임 오버!" << endl;
+                    cout << InsPlayer->getName() << "이(가) 쓰러졌다! 게임 오버!" << endl;
                     delete InsPlayer;
                     InsPlayer = nullptr;
                     break;

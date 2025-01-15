@@ -6,8 +6,8 @@ using namespace std;
 
 
 Character* Character::instance = nullptr;
-Character::Character(const std::string& name, int level, int health, int attack, int experience, int gold)
-	:name_(name), level_(level), health_(health), maxHealth_(health), attack_(attack), experience_(experience), gold_(gold)
+Character::Character(const std::string& name, int level, int health, int attack, int experience, int gold, int totalKillMonster)
+	:name_(name), level_(level), health_(health), maxHealth_(health), attack_(attack), experience_(experience), gold_(gold), totalKillMonster(totalKillMonster)
 {
 }
 
@@ -24,6 +24,9 @@ void Character::displayStats() const {
     std::cout << "체력: " << health_ << " / " << maxHealth_ << std::endl;
     std::cout << "공격력: " << attack_ << std::endl;
     std::cout << "경험치: " << experience_ << " / 100" << std::endl;
+	std::cout << "처치한 몬스터 수: " << totalKillMonster << std::endl;
+
+
 }
 
 
@@ -105,4 +108,10 @@ void Character::takeDamage(int damage)
 		exit(0);
 	}
 }
+
+void Character::setTotalKillMonster()
+{
+	++totalKillMonster;
+}
+
 
