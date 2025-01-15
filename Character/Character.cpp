@@ -27,9 +27,9 @@ void Character::displayStats() const {
 }
 
 
-void Character::gainExperience(int expGain) {
-	experience_ += expGain;
-	std::cout << name_ << " 은(는) 경험치 " << expGain << " 을 얻었다!" << std::endl;
+void Character::gainExperience() {
+	experience_ += 50;
+	std::cout << name_ << " 은(는) 경험치 " << 50 << " 을 얻었다!" << std::endl;
 
 	if (experience_ >= 100) {
 		levelUp(experience_ / 100);
@@ -69,6 +69,11 @@ int Character::getAttack() const {
 	return attack_;
 }
 
+int Character::getLevel() const
+{
+	return level_;
+}
+
 void Character::setAttack(int attack) {
 	attack_ = attack;
 }
@@ -78,7 +83,9 @@ void Character::takeDamage(int damage)
 	health_ -= damage;
 	if (health_ <= 0)
 	{
+		health_ = 0;
 		cout << "패배했습니다!" << endl;
+		exit(0);
 	}
 }
 

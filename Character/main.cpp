@@ -1,5 +1,7 @@
 #include "Character.h"
 #include "../Item/Item.h"
+#include "../Monster/Monster.h"
+#include "../GameManager/GameManager.h"
 #include <iostream>
 
 using namespace std;
@@ -25,22 +27,9 @@ int main() {
     }
 
     Character* myCharacter = Character::getInstance(name);
-    myCharacter->displayStats();
+    GameManager gameManager;
 
-    myCharacter->gainExperience(50);
-    myCharacter->displayStats();
-
-    myCharacter->gainExperience(60);
-    myCharacter->displayStats();
-
-    HealthItem potion("°³ ²­", 50);
-    AttackBoost sword("»ç·á", 10);
-
-    myCharacter->useItem(&potion);
-    myCharacter->displayStats();
-
-    myCharacter->useItem(&sword);
-    myCharacter->displayStats();
-
+	gameManager.battle(myCharacter);
+ 
     return 0;
 }

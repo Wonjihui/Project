@@ -9,17 +9,21 @@ class Item
 protected:
     std::string name_;
     int value_;
+    std::string type_;
 
 public:
 
-    void useItem(Item* item);
+    Item(const std::string& name, const std::string& effectType, int effectValue);
+
+    void useItem(Character* character);
 
     Item(const std::string& name, int value) : name_(name), value_(value) {}
     virtual ~Item() {}
 
-    std::string getName() const { return name_; }
+    std::string getName()const;
 
-    int getValue() const { return value_; }
+    int getValue()const;
+
     virtual void use(Character* character) = 0;
 };
 
@@ -33,11 +37,7 @@ public:
         : Item(name, value), healthRestore_(healthRestore) {
     }
 
-    void use(Character* Character) override
-    {
-
-        std::cout << "°³ ²­À» ¸Ô¾ú½À´Ï´Ù! +HP : " << healthRestore_ << std::endl;
-    }
+    void use(Character* Character) override;
 };
 
 class AttackBoost : public Item
@@ -50,9 +50,6 @@ public:
         : Item(name, value), attackIncrease_(attackIncrease) {
     }
 
-    void use(Character* Character) override
-    {
-        std::cout << "»ç·á¸¦ ¸Ô¾ú½À´Ï´Ù! +ATTACK : " << attackIncrease_ << std::endl;
-    }
+    void use(Character* Character) override;
 };
 #endif

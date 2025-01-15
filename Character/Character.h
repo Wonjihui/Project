@@ -26,7 +26,7 @@ public:
     static Character* getInstance(const std::string& name);
 
     void displayStats() const;
-    void gainExperience(int expGain);
+    void gainExperience();
     void levelUp(int levels);
 
     int getHealth() const;

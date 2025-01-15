@@ -47,7 +47,7 @@ void GameManager::battle(Character* player)
             {
                 std::cout << monster->getName() << " defeated!" << std::endl;
                 delete monster;
-                player->levelUp();
+                player->gainExperience();
                 return;
             }
 
