@@ -2,18 +2,19 @@
 
 void GameManager::DisplayInven(Character* player)
 {
-	Character* InsPlayerInvent = Character::getInstance();
-	int gold = InsPlayerInvent->getGold();
-	cout << "재화: " << gold << "골드" << endl << "개 껌:" << endl << "사료:" << endl << endl;
+	int gold = player->getGold();
+	__int64 HPItemcount;
+	__int64 ATKItemcount;
+	FindItem(player, &HPItemcount, &ATKItemcount);
+	cout << "재화: " << gold << "골드" << endl << "개 껌:" << HPItemcount << endl << "사료:" << ATKItemcount << endl << endl;
 }
 
 void GameManager::BattleSys(Character* player)
 {
-	Character* InsPlayer = Character::getInstance();
-	InsPlayer->displayStats();
+	player->displayStats();
 	int move = 0;
 	cout << "게임을 시작합니다!" << endl << endl;
-	while (InsPlayer != nullptr)
+	while (player != nullptr)
 	{
 		cout << "앞으로 이동 : 1 " << endl << "상점 이용 : 2" << endl << "스텟 확인 : 3" << endl << "인벤토리 : 4" << endl;
 		cin >> move;
@@ -22,14 +23,14 @@ void GameManager::BattleSys(Character* player)
 		case 1:
 		{
 			cout << "앞으로 이동 중..." << endl << endl;
-			Monster* mob = MonsterSpawn(InsPlayer->getLevel());
-			while (mob != nullptr && InsPlayer!= nullptr && mob->getHealth() > 0 && InsPlayer->getHealth() > 0)
+			Monster* mob = MonsterSpawn(player->getLevel());
+			while (mob != nullptr && player != nullptr && mob->getHealth() > 0 && player->getHealth() > 0)
 			{
-				mob->takeDamage(InsPlayer->getAttack());
+				mob->takeDamage(player->getAttack());
 				cout << mob->getName() << "의 몸을 물었다! 남은 HP: " << mob->getHealth() << endl << endl;
 
-				InsPlayer->getDamage(mob->getAttack());
-				cout << InsPlayer->getName() << "가 데미지를 입었다! 남은 HP: " << InsPlayer->getHealth() << endl << endl;
+				player->getDamage(mob->getAttack());
+				cout << player->getName() << "가 데미지를 입었다! 남은 HP: " << player->getHealth() << endl << endl;
 
 				if (mob->getHealth() <= 0)
 				{
@@ -37,31 +38,30 @@ void GameManager::BattleSys(Character* player)
 
 					delete mob;
 					mob = nullptr;
-					InsPlayer->gainGold(RandomValue(10, 20));
-					InsPlayer->gainExperience(50);
-					cout << InsPlayer->getName() << "가 전리품을 챙겼습니다!" << endl << "골드: " << gold << endl << "경험치 : " << exp << endl << endl;
-					InsPlayer->displayStats();
+					LootItem(player);
+					player->displayStats();
 				}
-				if (InsPlayer->getHealth() <= 0)
+				if (player->getHealth() <= 0)
 				{
-					cout << InsPlayer->getName() << "가 쓰러졌다!" << InsPlayer->getName() << "의 패배..." << endl << "게임 오버";
-					delete InsPlayer;
-					InsPlayer = nullptr;
+					cout << player->getName() << "가 쓰러졌다!" << player->getName() << "의 패배..." << endl << "게임 오버";
+					delete player;
+					player = nullptr;
 				}
 			}
 			break;
 		}
 		case 2:
 		{
-			cout << "상점 미구현" << endl;
+			Shop* shop = new Shop();
+			shop->DisplayItems();
 			break;
 		}
 		case 3:
-			InsPlayer->displayStats();
+			player->displayStats();
 			break;
 		case 4:
 			cout << "인벤토리 오픈" << endl;
-			DisplayInven(InsPlayer);
+			DisplayInven(player);
 			break;
 		}
 	}
@@ -115,4 +115,20 @@ int GameManager::RandomValue(int min, int max)
 	uniform_int_distribution<int> dis(min, max);
 	int num = dis(gen);
 	return num;
+}
+
+void GameManager::LootItem(Character* player)
+{
+	cout << player->getName() << "가 전리품을 챙겼습니다!" << endl << endl;
+	player->gainItem(RandomValue(1,100));
+	int exp = player->gainExperience(50);
+	int gold = player->gainGold(RandomValue(10, 20));
+}
+
+int GameManager::FindItem(Character* player, __int64* HPItemcount, __int64* ATKItemcount)
+{
+	vector<Item*> item = player->getInventory();
+	*HPItemcount = count_if(item.begin(), item.end(), [](Item* i) { return dynamic_cast<HealthItem*>(i) != nullptr; });
+	*ATKItemcount = count_if(item.begin(), item.end(), [](Item* i) { return dynamic_cast<AttackBoost*>(i) != nullptr; });
+	return 0;
 }
