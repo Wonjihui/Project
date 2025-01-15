@@ -11,9 +11,11 @@ GameManager::GameManager()
 }
 void GameManager::DisplayInven(Character* player)
 {
-    Character* InsPlayerInvent = player;
-    int gold = InsPlayerInvent->getGold();
-    cout << "재화: " << gold << "골드" << endl << "개 껌:" << endl << "사료:" << endl << endl;
+    int gold = player->getGold();
+    __int64 HPItemcount;
+    __int64 ATKItemcount;
+    FindItem(player, &HPItemcount, &ATKItemcount);
+    cout << "재화: " << gold << "골드" << endl << "개 껌:" << HPItemcount << endl << "사료:" << ATKItemcount << endl << endl;
 }
 
 int GameManager::RandomValue(int min, int max)
@@ -128,9 +130,11 @@ void GameManager::battle(Character* player)
         }
 
         case 2: // 상점
-            cout << "상점 미구현" << endl;
+        {
+            Shop* shop = new Shop();
+            shop->DisplayItems();
             break;
-
+        }
         case 3: // 스탯 확인
             InsPlayer->displayStats();
             break;
@@ -145,4 +149,20 @@ void GameManager::battle(Character* player)
             break;
         }
     }
+}
+
+void GameManager::LootItem(Character* player)
+{
+    cout << player->getName() << "가 전리품을 챙겼습니다!" << endl << endl;
+    player->gainItem(RandomValue(1, 100));
+    player->gainExperience(); //50exp 고정
+    player->gainGold(RandomValue(10, 20));
+}
+
+int GameManager::FindItem(Character* player, __int64* HPItemcount, __int64* ATKItemcount)
+{
+    vector<Item*> item = player->getInventory();
+    *HPItemcount = count_if(item.begin(), item.end(), [](Item* i) { return dynamic_cast<HealthItem*>(i) != nullptr; });
+    *ATKItemcount = count_if(item.begin(), item.end(), [](Item* i) { return dynamic_cast<AttackBoost*>(i) != nullptr; });
+    return 0;
 }

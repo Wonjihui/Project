@@ -1,15 +1,15 @@
 ﻿#include "Character.h"
-#include "../Item/Item.h"	
 #include <iostream>
 
 using namespace std;
 
 
 Character* Character::instance = nullptr;
+
 Character::Character(const std::string& name, int level, int health, int attack, int experience, int gold, int totalKillMonster)
-	:name_(name), level_(level), health_(health), maxHealth_(health), attack_(attack), experience_(experience), gold_(gold), totalKillMonster(totalKillMonster)
-{
+	: name_(name), level_(level), health_(health), maxHealth_(health), attack_(attack), experience_(experience), gold_(gold), totalKillMonster_(totalKillMonster) {
 }
+
 
 Character* Character::getInstance(const std::string& name) {
 	if (instance == nullptr) {
@@ -19,18 +19,13 @@ Character* Character::getInstance(const std::string& name) {
 }
 
 void Character::displayStats() const {
-    std::cout << "캐릭터: " << name_ << std::endl;
-    std::cout << "레벨: " << level_ << std::endl;
-    std::cout << "체력: " << health_ << " / " << maxHealth_ << std::endl;
-    std::cout << "공격력: " << attack_ << std::endl;
-    std::cout << "경험치: " << experience_ << " / 100" << std::endl;
-	std::cout << "처치한 몬스터 수: " << totalKillMonster << std::endl;
-
-
+	std::cout << "캐릭터: " << name_ << std::endl;
+	std::cout << "레벨: " << level_ << std::endl;
+	std::cout << "체력: " << health_ << " / " << maxHealth_ << std::endl;
+	std::cout << "공격력: " << attack_ << std::endl;
+	std::cout << "경험치: " << experience_ << " / 100" << std::endl;
+	std::cout << "처치한 몬스터 수: " << totalKillMonster_ << std::endl;
 }
-
-
-
 
 void Character::gainExperience() {
 	experience_ += 50;
@@ -74,23 +69,19 @@ int Character::getAttack() const {
 	return attack_;
 }
 
-int Character::getLevel() const
-{
+int Character::getLevel() const {
 	return level_;
 }
 
-int Character::getGold() const
-{
+int Character::getGold() const {
 	return gold_;
 }
 
-void Character::gainGold(int amount)
-{
+void Character::gainGold(int amount) {
 	gold_ += amount;
 }
 
-string Character::getName() const
-{
+std::string Character::getName() const {
 	return name_;
 }
 
@@ -111,7 +102,38 @@ void Character::takeDamage(int damage)
 
 void Character::setTotalKillMonster()
 {
-	++totalKillMonster;
+	++totalKillMonster_;
 }
 
+void Character::useItem(Item* item) {
+	item->use(this);
+}
 
+std::vector<Item*>& Character::getInventory() {
+    return inventory_;
+}
+
+void Character::gainItem(int value) {
+	{
+		if (value <= 50) {
+			inventory_.emplace_back(new HealthItem("개 껌", 50));
+			cout << "개 껌 획득" << endl;
+		}
+		else if (value > 50)
+		{
+			inventory_.emplace_back(new AttackBoost("사료", 10));
+			cout << "사료 획득" << endl;
+		}
+	}
+}
+void Character::deleteItem(int value)
+	{
+		if (value <= 50) {
+			inventory_.erase(remove_if(inventory_.begin(), inventory_.end(), [](Item* i) {return dynamic_cast<HealthItem*>(i) != nullptr; }));
+
+		}
+		else if (value > 50)
+		{
+			inventory_.erase(remove_if(inventory_.begin(), inventory_.end(), [](Item* i) {return dynamic_cast<AttackBoost*>(i) != nullptr; }));
+		}
+	}
