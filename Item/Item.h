@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "../Character/Character.h"
-
+class Character;
 class Item
 {
 protected:
@@ -14,42 +14,25 @@ protected:
 public:
 
     Item(const std::string& name, const std::string& effectType, int effectValue);
-
-    void useItem(Character* character);
-
-    Item(const std::string& name, int value) : name_(name), value_(value) {}
-    virtual ~Item() {}
+    virtual ~Item() = default;
 
     std::string getName()const;
-
     int getValue()const;
 
     virtual void use(Character* character) = 0;
 };
 
-class HealthItem : public Item
-{
-private:
-    int healthRestore_;
-
+class HealthItem : public Item {
 public:
-    HealthItem(const std::string& name, int value, int healthRestore)
-        : Item(name, value), healthRestore_(healthRestore) {
-    }
-
-    void use(Character* Character) override;
+    HealthItem(const std::string& name, int restoreValue);
+    void use(Character* character) override;
 };
 
-class AttackBoost : public Item
-{
-private:
-    int attackIncrease_;
 
+class AttackBoost : public Item {
 public:
-    AttackBoost(const std::string& name, int value, int attackIncrease)
-        : Item(name, value), attackIncrease_(attackIncrease) {
-    }
-
-    void use(Character* Character) override;
+    AttackBoost(const std::string& name, int boostValue);
+    void use(Character* character) override;
 };
+
 #endif
