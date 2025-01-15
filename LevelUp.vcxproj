@@ -133,12 +133,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameManager\GameManager.cpp" />
+    <ClCompile Include="Item\Item.cpp" />
     <ClCompile Include="Monster\Monster.cpp" />
     <ClCompile Include="Character\Character.cpp" />
     <ClCompile Include="Character\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager\GameManager.h" />
+    <ClInclude Include="Item\Item.h" />
     <ClInclude Include="Monster\Monster.h" />
     <ClInclude Include="Character\Character.h" />
   </ItemGroup>
