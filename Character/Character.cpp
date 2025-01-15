@@ -1,53 +1,76 @@
 ﻿#include "Character.h"
+#include "../Item/Item.h"	
 #include <iostream>
 
 using namespace std;
 
+
+Character* Character::instance = nullptr;
 Character::Character(const std::string& name, int level, int health, int attack, int experience, int gold)
 	:name_(name), level_(level), health_(health), maxHealth_(health), attack_(attack), experience_(experience), gold_(gold)
 {
 }
 
-void Character::displayStats() const
-{
-	cout << "캐릭터:" << name_ << endl;
-	cout << "레벨:" << level_ << endl;
-	cout << "체력:" << health_ << endl;
-	cout << "공격력:" << attack_ << endl;
-	cout << "경험치:" << experience_ << endl;
+Character* Character::getInstance(const std::string& name) {
+	if (instance == nullptr) {
+		instance = new Character(name);
+	}
+	return instance;
 }
 
-void Character::gainExperience(int exp)
-{
-	experience_ += exp;
+void Character::displayStats() const {
+    std::cout << "캐릭터: " << name_ << std::endl;
+    std::cout << "레벨: " << level_ << std::endl;
+    std::cout << "체력: " << health_ << " / " << maxHealth_ << std::endl;
+    std::cout << "공격력: " << attack_ << std::endl;
+    std::cout << "경험치: " << experience_ << " / 100" << std::endl;
 }
 
-void Character::levelUp()
-{
-	if (experience_ >= level_ * 100)
-	{
-		experience_ = 0;
-		++level_;
-		health_ = maxHealth_ + 50 * level_;
-		maxHealth_ = health_;
-		attack_ = attack_ + 5 * level_;
-		cout << "레벨업!" << endl;
+
+void Character::gainExperience(int expGain) {
+	experience_ += expGain;
+	std::cout << name_ << " 은(는) 경험치 " << expGain << " 을 얻었다!" << std::endl;
+
+	if (experience_ >= 100) {
+		levelUp(experience_ / 100);
+		experience_ %= 100;
 	}
 }
 
-int Character::getLevel() const
-{
-	return level_;
+void Character::levelUp(int levels) {
+	if (level_ >= maxLevel_) {
+		return;
+	}
+
+	level_ += levels;
+	if (level_ > maxLevel_) {
+		level_ = maxLevel_;
+	}
+
+	maxHealth_ += levels * 20;
+	attack_ += levels * 5;
+	health_ = maxHealth_;
+	std::cout << name_ << " 레벨 업! Lv." << level_ << "!" << std::endl;
 }
 
-int Character::getHealth() const
-{
+int Character::getHealth() const {
 	return health_;
 }
 
-int Character::getAttack() const
-{
+void Character::setHealth(int health) {
+	health_ = health;
+}
+
+int Character::getMaxHealth() const {
+	return maxHealth_;
+}
+
+int Character::getAttack() const {
 	return attack_;
+}
+
+void Character::setAttack(int attack) {
+	attack_ = attack;
 }
 
 void Character::takeDamage(int damage)
