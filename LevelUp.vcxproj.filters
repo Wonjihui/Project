@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\Character.cpp">
+    <ClCompile Include="Character\Character.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Monster\Monster.cpp">
@@ -24,9 +24,12 @@
     <ClCompile Include="GameManager\GameManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Character\main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\Character.h">
+    <ClInclude Include="Character\Character.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Monster\Monster.h">

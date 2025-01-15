@@ -134,12 +134,13 @@
   <ItemGroup>
     <ClCompile Include="GameManager\GameManager.cpp" />
     <ClCompile Include="Monster\Monster.cpp" />
-    <ClCompile Include="source\Character.cpp" />
+    <ClCompile Include="Character\Character.cpp" />
+    <ClCompile Include="Character\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager\GameManager.h" />
     <ClInclude Include="Monster\Monster.h" />
-    <ClInclude Include="source\Character.h" />
+    <ClInclude Include="Character\Character.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

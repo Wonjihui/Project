@@ -2,7 +2,7 @@
 #define GAMEMANAGER_H
 
 #include "../Monster/Monster.h"
-#include "../sorce/Character.h"
+#include "../Character/Character.h"
 #include <vector>
 
 class GameManager
