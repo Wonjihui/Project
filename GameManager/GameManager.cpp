@@ -2,12 +2,27 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <random>
+using namespace std;
 
 GameManager::GameManager()
 {
     srand(static_cast<unsigned>(time(0))); // 랜덤 시드 초기화
 }
+void GameManager::DisplayInven(Character* player)
+{
+    Character* InsPlayerInvent = player;
+    int gold = InsPlayerInvent->getGold();
+    cout << "재화: " << gold << "골드" << endl << "개 껌:" << endl << "사료:" << endl << endl;
+}
 
+int GameManager::RandomValue(int min, int max)
+{
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<int> dis(min, max);
+    return dis(gen);
+}
 Monster* GameManager::generateMonster(int level)
 {
     int monsterType = rand() % 4; // 0~3 사이의 랜덤 값
@@ -33,58 +48,93 @@ Human* GameManager::generateBossMonster(int level)
 
 void GameManager::battle(Character* player)
 {
-    if (player->getLevel() < 10)
+    Character* InsPlayer = player;
+    InsPlayer->displayStats();
+
+    cout << "게임을 시작합니다!" << endl << endl;
+    while (InsPlayer != nullptr)
     {
-        // 기존 몬스터와 전투
-        Monster* monster = generateMonster(player->getLevel());
-        std::cout << "A wild " << monster->getName() << " appears!" << std::endl;
+        int move = 0;
+        cout << "앞으로 이동 : 1 " << endl
+            << "상점 이용 : 2" << endl
+            << "스텟 확인 : 3" << endl
+            << "인벤토리 : 4" << endl;
+        cin >> move;
 
-        while (monster->getHealth() > 0 && player->getHealth() > 0)
+        switch (move)
         {
-            // 캐릭터 공격
-            monster->takeDamage(player->getAttack());
-            if (monster->getHealth() <= 0)
+        case 1: // 몬스터와 전투
+        {
+            cout << "앞으로 이동 중..." << endl << endl;
+
+            Monster* enemy = nullptr;
+
+            if (InsPlayer->getLevel() < 10)
             {
-                std::cout << monster->getName() << " defeated!" << std::endl;
-                delete monster;
-                player->gainExperience();
-                return;
+                // 일반 몬스터 생성
+                enemy = generateMonster(InsPlayer->getLevel());
+                cout << "몬스터 " << enemy->getName() << " (이)가 나타났습니다!" << endl;
+            }
+            else
+            {
+                // 보스 몬스터 생성
+                enemy = generateBossMonster(InsPlayer->getLevel());
+                cout << "보스 몬스터 " << enemy->getName() << " 이 나타났습니다!" << endl;
             }
 
-            // 몬스터 공격
-            player->takeDamage(monster->getAttack());
-            if (player->getHealth() <= 0)
+            cout << enemy->getName() << " HP: " << enemy->getHealth() << " ATK: " << enemy->getAttack() << endl << endl;
+
+            while (enemy != nullptr && InsPlayer != nullptr && enemy->getHealth() > 0 && InsPlayer->getHealth() > 0)
             {
-                std::cout << "You have been defeated!" << std::endl;
-                return;
+                // 캐릭터가 몬스터 공격
+                enemy->takeDamage(InsPlayer->getAttack());
+                cout << InsPlayer->getName() << "가 " << enemy->getName() << "를 공격했다! " << enemy->getName() << "의 남은 HP: " << enemy->getHealth() << endl;
+
+                if (enemy->getHealth() <= 0)
+                {
+                    cout << enemy->getName() << "가 쓰러졌다! 승리!" << endl;
+
+                    InsPlayer->gainGold(RandomValue(10, 20));
+                    InsPlayer->gainExperience();
+                    cout << InsPlayer->getName() << "가 전리품을 챙겼습니다!" << endl;
+                    InsPlayer->displayStats();
+
+                    delete enemy;
+                    enemy = nullptr;
+                    break;
+                }
+
+                // 몬스터가 캐릭터 공격
+                InsPlayer->takeDamage(enemy->getAttack());
+                cout << enemy->getName() << "가 " << InsPlayer->getName() << "를 공격했다! " << InsPlayer->getName() << "의 남은 HP: " << InsPlayer->getHealth() << endl;
+
+                if (InsPlayer->getHealth() <= 0)
+                {
+                    cout << InsPlayer->getName() << "가 쓰러졌다! 게임 오버!" << endl;
+                    delete InsPlayer;
+                    InsPlayer = nullptr;
+                    break;
+                }
             }
+            break;
         }
-    }
-    else
-    {
-        // 보스 몬스터와 전투
-        Human* Human = generateBossMonster(player->getLevel());
-        std::cout << "보스 몬스터 " << Human->getName() << " 이 나타났습니다!" << std::endl;
 
-        while (Human->getHealth() > 0 && player->getHealth() > 0)
-        {
-            // 캐릭터 공격
-            Human->takeDamage(player->getAttack());
-            std::cout << Human->getName() << " defeated!" << std::endl;
-            if (Human->getHealth() <= 0)
-            {
-                std::cout << Human->getName() << " defeated!" << std::endl;
-                delete Human;
-                return;
-            }
+        case 2: // 상점
+            cout << "상점 미구현" << endl;
+            break;
 
-            // 보스 몬스터 공격
-            player->takeDamage(Human->getAttack());
-            if (player->getHealth() <= 0)
-            {
-                std::cout << "보스 몬스터와의 전투에서 패배했습니다" << std::endl;
-                return;
-            }
+        case 3: // 스탯 확인
+            InsPlayer->displayStats();
+            break;
+
+        case 4: // 인벤토리 확인
+            cout << "인벤토리 오픈" << endl;
+            DisplayInven(InsPlayer);
+            break;
+
+        default:
+            cout << "잘못된 입력입니다." << endl;
+            break;
         }
     }
 }

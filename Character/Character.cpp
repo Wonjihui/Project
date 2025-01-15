@@ -27,6 +27,8 @@ void Character::displayStats() const {
 }
 
 
+
+
 void Character::gainExperience() {
 	experience_ += 50;
 	std::cout << name_ << " 은(는) 경험치 " << 50 << " 을 얻었다!" << std::endl;
@@ -74,6 +76,21 @@ int Character::getLevel() const
 	return level_;
 }
 
+int Character::getGold() const
+{
+	return gold_;
+}
+
+void Character::gainGold(int amount)
+{
+	gold_ += amount;
+}
+
+string Character::getName() const
+{
+	return name_;
+}
+
 void Character::setAttack(int attack) {
 	attack_ = attack;
 }
@@ -84,7 +101,7 @@ void Character::takeDamage(int damage)
 	if (health_ <= 0)
 	{
 		health_ = 0;
-		cout << "패배했습니다!" << endl;
+		cout << "캐릭터가 사망했습니다!" << endl;
 		exit(0);
 	}
 }

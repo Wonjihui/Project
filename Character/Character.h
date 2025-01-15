@@ -32,6 +32,9 @@ public:
     int getHealth() const;
     int getAttack() const;
 	int getLevel() const;
+	int getGold() const;
+    void gainGold(int amount);
+    std::string getName() const;
     void takeDamage(int damage);
 
 
