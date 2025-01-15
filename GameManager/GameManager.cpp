@@ -95,9 +95,10 @@ void GameManager::battle(Character* player)
                     cout << InsPlayer->getName() << "이(가) " << enemy->getName() << "을(를) 공격했다! " << enemy->getName() << "의 남은 HP: 0" << endl;
                     cout << enemy->getName() << "이(가) 쓰러졌다! 승리!" << endl;
                     InsPlayer->setTotalKillMonster();  
-                    InsPlayer->gainGold(RandomValue(10, 20));
+                    int rangold = RandomValue(10, 20);
+                    InsPlayer->gainGold(rangold);
                     InsPlayer->gainExperience();
-                    cout << InsPlayer->getName() << "이(가) 전리품을 챙겼습니다!" << endl;
+					cout << InsPlayer->getName() << "이(가) 50EXP와 " << rangold << "골드를 획득했습니다. 현재 골드: " << InsPlayer->getGold() << endl; // "exp: 50/100" 추가해야됨 getExp()함수 추가해야됨
 
                     delete enemy;
                     enemy = nullptr;
