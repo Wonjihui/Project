@@ -66,8 +66,7 @@ int Character::getHealth() const
 
 void Character::setHealth(int health) 
 {
-	health_ = health;
-	변경하고
+	health_ = health;//test
 }
 
 int Character::getMaxHealth() const
