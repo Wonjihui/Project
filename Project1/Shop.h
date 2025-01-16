@@ -9,9 +9,9 @@ public:
 	Shop();
 	~Shop();
 	void DisplayItems();
-	void BuyHealthPotion(int idx, Character* player);
-	void BuyAttackBoost(int idx, Character* player);
-	void SellItem(int idx, Character* player);
+	void BuyHealthPotion(Character* player);
+	void BuyAttackBoost(Character* player);
+	void SellItem(Character* player);
 
 private:
 	std::vector<Item*> AvailableItems;

@@ -20,13 +20,13 @@ void Shop::DisplayItems()
 		cin >> choice;
 
 		if (choice == 1) {
-			BuyHealthPotion(1,player);
+			BuyHealthPotion(player);
 		}
 		else if (choice == 2) {
-			BuyAttackBoost(1,player);
+			BuyAttackBoost(player);
 		}
 		else if (choice == 3) {
-			SellItem(1, player);
+			SellItem(player);
 		}
 		else if (choice == 4) {
 			cout << "로비로 이동합니다." << endl;
@@ -38,7 +38,7 @@ void Shop::DisplayItems()
 	}
 }
 
-void Shop::BuyHealthPotion(int idx, Character* player)
+void Shop::BuyHealthPotion(Character* player)
 {
 	if (player->getGold() >= 50)
 	{
@@ -52,7 +52,7 @@ void Shop::BuyHealthPotion(int idx, Character* player)
 	}
 
 }
-void Shop::BuyAttackBoost(int idx, Character* player)
+void Shop::BuyAttackBoost(Character* player)
 {
 	GameManager* InvenDiplay = new GameManager();
 	if (player->getGold() >= 10)
@@ -66,7 +66,7 @@ void Shop::BuyAttackBoost(int idx, Character* player)
 		cout << "골드가 부족합니다." << endl;
 }
 
-void Shop::SellItem(int idx, Character* player)
+void Shop::SellItem(Character* player)
 {
 	AvailableItems = player->getInventory();
 	if (AvailableItems.empty())
@@ -97,6 +97,7 @@ void Shop::SellItem(int idx, Character* player)
 		player->deleteItem(1);
 		cout << "개껌을 팔아서 30$를 획득했습니다." << endl;
 		InvenDiplay->DisplayInven(player);
+		cout << AvailableItems.size();
 		}
 		else
 			cout << "개껌은 없습니다..." << endl;
@@ -108,6 +109,7 @@ void Shop::SellItem(int idx, Character* player)
 		player->deleteItem(51);
 		cout << "사료를 팔아서 5$를 획득했습니다." << endl;
 		InvenDiplay->DisplayInven(player);
+		cout << AvailableItems.size();
 		}
 		else
 			cout << "사료는 없습니다..." << endl;

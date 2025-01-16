@@ -127,7 +127,7 @@ void GameManager::LootItem(Character* player)
 
 int GameManager::FindItem(Character* player, __int64* HPItemcount, __int64* ATKItemcount)
 {
-	vector<Item*> item = player->getInventory();
+	vector<Item*> item(player->getInventory());
 	*HPItemcount = count_if(item.begin(), item.end(), [](Item* i) { return dynamic_cast<HealthItem*>(i) != nullptr; });
 	*ATKItemcount = count_if(item.begin(), item.end(), [](Item* i) { return dynamic_cast<AttackBoost*>(i) != nullptr; });
 	return 0;

@@ -1,4 +1,4 @@
-#include "Character.h"
+ï»¿#include "Character.h"
 #include <iostream>
 
 using namespace std;
@@ -33,7 +33,7 @@ void HealthItem::use(Character* character) {
         newHealth = character->getMaxHealth();
     }
     character->setHealth(newHealth);
-    std::cout << getName() << " À»(¸¦) »ç¿ëÇß½À´Ï´Ù! Ã¼·ÂÀÌ " << getEffectValue() << " ¸¸Å­ È¸º¹µÇ¾ú½À´Ï´Ù." << std::endl;
+    std::cout << getName() << " ì„(ë¥¼) ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤! ì²´ë ¥ì´ " << getEffectValue() << " ë§Œí¼ íšŒë³µë˜ì—ˆìŠµë‹ˆë‹¤." << std::endl;
 }
 
 // AttackBoost class
@@ -44,11 +44,11 @@ AttackBoost::AttackBoost(const std::string& name, int boostValue)
 void AttackBoost::use(Character* character) {
     int newAttack = character->getAttack() + getEffectValue();
     character->setAttack(newAttack);
-    std::cout << getName() << " À»(¸¦) »ç¿ëÇß½À´Ï´Ù! °ø°Ý·ÂÀÌ " << getEffectValue() << " ¸¸Å­ Áõ°¡Çß½À´Ï´Ù." << std::endl;
+    std::cout << getName() << " ì„(ë¥¼) ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤! ê³µê²©ë ¥ì´ " << getEffectValue() << " ë§Œí¼ ì¦ê°€í–ˆìŠµë‹ˆë‹¤." << std::endl;
 }
 
 
-Character::Character(const std::string& name, int level, int health, int attack, int experience,int gold)
+Character::Character(const std::string& name, int level, int health, int attack, int experience, int gold)
     : name_(name), level_(level), health_(health), maxHealth_(health), attack_(attack), experience_(experience), gold_(gold)
 {
 }
@@ -97,27 +97,27 @@ int Character::getLevel()
 
 void Character::getDamage(int damage)
 {
-    health_-=damage;
+    health_ -= damage;
 }
 
 int Character::gainGold(int gold)
 {
     gold_ += gold;
-    cout << name_ << "Àº(´Â) " << gold << "°ñµå¸¦ ¾ò¾ú´Ù!" << endl;
+    cout << name_ << "ì€(ëŠ”) " << gold << "ê³¨ë“œë¥¼ ì–»ì—ˆë‹¤!" << endl;
     return gold;
 }
 
 void Character::displayStats() const {
-    std::cout << "Ä³¸¯ÅÍ: " << name_ << std::endl;
-    std::cout << "·¹º§: " << level_ << std::endl;
-    std::cout << "Ã¼·Â: " << health_ << " / " << maxHealth_ << std::endl;
-    std::cout << "°ø°Ý·Â: " << attack_ << std::endl;
-    std::cout << "°æÇèÄ¡: " << experience_ << " / 100" << std::endl;
+    std::cout << "ìºë¦­í„°: " << name_ << std::endl;
+    std::cout << "ë ˆë²¨: " << level_ << std::endl;
+    std::cout << "ì²´ë ¥: " << health_ << " / " << maxHealth_ << std::endl;
+    std::cout << "ê³µê²©ë ¥: " << attack_ << std::endl;
+    std::cout << "ê²½í—˜ì¹˜: " << experience_ << " / 100" << std::endl;
 }
 
 int Character::gainExperience(int expGain) {
     experience_ += expGain;
-    std::cout << name_ << "Àº(´Â) °æÇèÄ¡ " << expGain << " À» ¾ò¾ú´Ù!" << std::endl;
+    std::cout << name_ << "ì€(ëŠ”) ê²½í—˜ì¹˜ " << expGain << " ì„ ì–»ì—ˆë‹¤!" << std::endl;
 
     if (experience_ >= 100) {
         levelUp(experience_ / 100);
@@ -139,7 +139,7 @@ void Character::levelUp(int levels) {
     maxHealth_ += levels * 20;
     attack_ += levels * 5;
     health_ = maxHealth_;
-    std::cout << name_ << " ·¹º§ ¾÷! Lv." << level_ << "!" << std::endl;
+    std::cout << name_ << " ë ˆë²¨ ì—…! Lv." << level_ << "!" << std::endl;
 }
 
 void Character::useItem(Item* item) {
@@ -149,25 +149,31 @@ void Character::useItem(Item* item) {
 void Character::gainItem(int value)
 {
     if (value <= 50) {
-        inventory.emplace_back(new HealthItem("°³ ²­", 50));
-        cout << "°³ ²­ È¹µæ" << endl;
+        inventory.emplace_back(new HealthItem("ê°œ ê»Œ", 50));
+        cout << "ê°œ ê»Œ íšë“" << endl;
     }
-    else if(value > 50)
+    else if (value > 50)
     {
-        inventory.emplace_back(new AttackBoost("»ç·á", 10));
-        cout << "»ç·á È¹µæ" << endl;
+        inventory.emplace_back(new AttackBoost("ì‚¬ë£Œ", 10));
+        cout << "ì‚¬ë£Œ íšë“" << endl;
     }
 }
 
 void Character::deleteItem(int value)
 {
     if (value <= 50) {
-        inventory.erase(remove_if(inventory.begin(), inventory.end(), [](Item* i) {return dynamic_cast<HealthItem*>(i) != nullptr; }));
-
+        auto it = find_if(inventory.begin(), inventory.end(), [](Item* i) { return dynamic_cast<HealthItem*>(i) != nullptr; });
+        if (it != inventory.end()) {
+            inventory.erase(it);
+        }
     }
     else if (value > 50)
     {
-        inventory.erase(remove_if(inventory.begin(), inventory.end(), [](Item* i) {return dynamic_cast<AttackBoost*>(i) != nullptr; }));
+        auto it = find_if(inventory.begin(), inventory.end(), [](Item* i) { return dynamic_cast<AttackBoost*>(i) != nullptr; });
+        if (it != inventory.end()) {
+            inventory.erase(it);
+
+        }
     }
 }
 
