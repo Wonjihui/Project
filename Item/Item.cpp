@@ -44,5 +44,14 @@ void AttackBoost::use(Character* character) {
     std::cout << getName() << " 을(를) 사용했습니다! 공격력이 " << getValue() << " 만큼 증가했습니다." << std::endl;
 }
 
+// 부활석 class
+ReviveStone::ReviveStone(const std::string& name, int ReviveValue)
+    : Item(name, "revive", ReviveValue) {
+}
 
-
+void ReviveStone::use(Character* character) {
+    if (character) {
+        character->setHealth(200);  // 부활석을 사용하여 체력을 200으로 설정
+        std::cout << "부활석이 사용되어 체력이 200으로 회복되었습니다." << std::endl;
+    }
+}

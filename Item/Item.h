@@ -37,4 +37,10 @@ public:
     void use(Character* character) override;
 };
 
+class ReviveStone : public Item { // 새로 추가
+public:
+    ReviveStone(const std::string& name, int ReviveValue);
+    void use(Character* character) override;
+};
+
 #endif
