@@ -50,7 +50,7 @@ void Character::levelUp(int levels) {
 	maxHealth_ += levels * 20;
 	attack_ += levels * 5;
 	health_ = maxHealth_;
-	std::cout << name_ << " 레벨 업! Lv." << level_ << "!" << std::endl;
+	std::cout << name_ << " 레벨 업! Lv." << level_ << "!\n" << std::endl;
 }
 
 int Character::getHealth() const {
