@@ -30,7 +30,7 @@ void GameManager::DisplayInven(Character* player)
 	{
 		int choice;
 		cout << "+-------------------------------+" << endl;
-		cout << "|   v아이템을 사용하시겠습니까?   |" << endl;
+		cout << "|   아이템을 사용하시겠습니까?   |" << endl;
 		cout << "+-------------------------------+" << endl;
 		cout << "| 1. 개껌 사용                  |" << endl;
 		cout << "| 2. 사료 사용                  |" << endl;
