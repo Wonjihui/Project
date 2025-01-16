@@ -168,13 +168,13 @@ void GameManager::battle(Character* player)
 				{
 					// 일반 몬스터 생성
 					enemy = generateMonster(Player_->getLevel());
-					cout << "몬스터 " << enemy->getName() << " 이(가) 나타났습니다!" << endl;
+					cout << "앗! 몬스터 " << enemy->getName() << " 이(가) 나타났습니다!" << endl;
 				}
 				else
 				{
 					// 보스 몬스터 생성
 					enemy = generateBossMonster(Player_->getLevel());
-					cout << "보스 몬스터 " << enemy->getName() << " 이(가) 나타났습니다!" << endl;
+					cout << "마지막이군... 보스 몬스터 " << enemy->getName() << " 이 나타났습니다!" << endl;
 				}
 
 				cout << enemy->getName() << " HP: " << enemy->getHealth() << " ATK: " << enemy->getAttack() << endl << endl;
