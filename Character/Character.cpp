@@ -11,14 +11,17 @@ Character::Character(const std::string& name, int level, int health, int attack,
 }
 
 
-Character* Character::getInstance(const std::string& name) {
-	if (instance == nullptr) {
+Character* Character::getInstance(const std::string& name) 
+{
+	if (instance == nullptr) 
+	{
 		instance = new Character(name);
 	}
 	return instance;
 }
 
-void Character::displayStats() const {
+void Character::displayStats() const 
+{
 	std::cout << "캐릭터: " << name_ << std::endl;
 	std::cout << "레벨: " << level_ << std::endl;
 	std::cout << "체력: " << health_ << " / " << maxHealth_ << std::endl;
@@ -27,23 +30,28 @@ void Character::displayStats() const {
 	std::cout << "처치한 몬스터 수: " << totalKillMonster_ << std::endl;
 }
 
-void Character::gainExperience() {
+void Character::gainExperience() 
+{
 	experience_ += 50;
 	std::cout << name_ << " 은(는) 경험치 " << 50 << " 을 얻었다!" << std::endl;
 
-	if (experience_ >= 100) {
+	if (experience_ >= 100) 
+	{
 		levelUp(experience_ / 100);
 		experience_ %= 100;
 	}
 }
 
-void Character::levelUp(int levels) {
-	if (level_ >= maxLevel_) {
+void Character::levelUp(int levels) 
+{
+	if (level_ >= maxLevel_) 
+	{
 		return;
 	}
 
 	level_ += levels;
-	if (level_ > maxLevel_) {
+	if (level_ > maxLevel_)
+	{
 		level_ = maxLevel_;
 	}
 
@@ -53,43 +61,53 @@ void Character::levelUp(int levels) {
 	std::cout << name_ << " 레벨 업! Lv." << level_ << "!" << std::endl;
 }
 
-int Character::getHealth() const {
+int Character::getHealth() const 
+{
 	return health_;
 }
 
-void Character::setHealth(int health) {
+void Character::setHealth(int health) 
+{
 	health_ = health;
 }
 
-int Character::getMaxHealth() const {
+int Character::getMaxHealth() const
+{
 	return maxHealth_;
 }
 
-int Character::getAttack() const {
+int Character::getAttack() const 
+{
 	return attack_;
 }
 
-int Character::getLevel() const {
+int Character::getLevel() const
+{
 	return level_;
 }
 
-int Character::getGold() const {
+int Character::getGold() const 
+{
 	return gold_;
 }
 
-void Character::gainGold(int amount) {
+void Character::gainGold(int amount)
+{
 	gold_ += amount;
 }
 
-std::string Character::getName() const {
+std::string Character::getName() const
+{
 	return name_;
 }
 
-int Character::getExp() const {
+int Character::getExp() const
+{
 	return experience_;
 }
 
-void Character::setAttack(int attack) {
+void Character::setAttack(int attack) 
+{
 	attack_ = attack;
 }
 
@@ -109,15 +127,18 @@ void Character::setTotalKillMonster()
 	++totalKillMonster_;
 }
 
-void Character::useItem(Item* item) {
+void Character::useItem(Item* item)
+{
 	item->use(this);
 }
 
-std::vector<Item*>& Character::getInventory() {
+std::vector<Item*>& Character::getInventory()
+{
     return inventory_;
 }
 
-void Character::gainItem(int value) {
+void Character::gainItem(int value) 
+{
 	{
 		if (value <= 50) {
 			inventory_.emplace_back(new HealthItem("개 껌", 50));
@@ -132,12 +153,22 @@ void Character::gainItem(int value) {
 }
 void Character::deleteItem(int value)
 	{
-		if (value <= 50) {
-			inventory_.erase(remove_if(inventory_.begin(), inventory_.end(), [](Item* i) {return dynamic_cast<HealthItem*>(i) != nullptr; }));
-
+		if (value <= 50) 
+		{
+			auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) {return dynamic_cast<HealthItem*>(i) != nullptr;});
+			if (it != inventory_.end()) 
+			{
+				inventory_.erase(it);
+				inventory_.shrink_to_fit();
+			}
 		}
 		else if (value > 50)
 		{
-			inventory_.erase(remove_if(inventory_.begin(), inventory_.end(), [](Item* i) {return dynamic_cast<AttackBoost*>(i) != nullptr; }));
+			auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) {return dynamic_cast<AttackBoost*>(i) != nullptr; });
+			if (it != inventory_.end()) 
+			{
+				inventory_.erase(it);
+				inventory_.shrink_to_fit();
+			}
 		}
 	}

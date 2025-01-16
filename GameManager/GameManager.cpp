@@ -92,7 +92,7 @@ void GameManager::battle(Character* player)
             {
                 // 캐릭터가 몬스터 공격
                 enemy->takeDamage(Player_->getAttack());
-                if (enemy->getHealth() <= 0)
+                if (enemy->getHealth() <= 0)//몬스터 죽었을때
                 {
                     cout << Player_->getName() << "이(가) " << enemy->getName() << "을(를) 공격했다! " << enemy->getName() << "의 남은 HP: 0" << endl;
                     cout << enemy->getName() << "이(가) 쓰러졌다! 승리!" << endl;
@@ -118,7 +118,7 @@ void GameManager::battle(Character* player)
                 Player_->takeDamage(enemy->getAttack());
                 cout << enemy->getName() << "이(가) " << Player_->getName() << "을(를) 공격했다! " << Player_->getName() << "의 남은 HP: " << Player_->getHealth() << endl;
 
-                if (Player_->getHealth() <= 0)
+				if (Player_->getHealth() <= 0) //캐릭터 죽었을때
                 {
                     cout << Player_->getName() << "이(가) 쓰러졌다! 게임 오버!" << endl;
                     delete Player_;

@@ -17,20 +17,25 @@ void Shop::DisplayItems()
 		int choice; // 사용자의 메뉴 선택을 저장
 		cin >> choice;
 
-		if (choice == 1) {
+		if (choice == 1)
+		{
 			BuyHealthPotion(1, player);
 		}
-		else if (choice == 2) {
+		else if (choice == 2)
+		{
 			BuyAttackBoost(1, player);
 		}
-		else if (choice == 3) {
+		else if (choice == 3)
+		{
 			SellItem(1, player);
 		}
-		else if (choice == 4) {
+		else if (choice == 4)
+		{
 			cout << "로비로 이동합니다." << endl;
 			break;
 		}
-		else {
+		else
+		{
 			cout << "잘못된 접근입니다. 1~4중에 선택하세요." << endl;
 		}
 	}
@@ -95,7 +100,6 @@ void Shop::SellItem(int idx, Character* player)
 			player->deleteItem(1);
 			cout << "개껌을 팔아서 30$를 획득했습니다." << endl;
 			InvenDiplay->DisplayInven(player);
-			cout << AvailableItems.size();
 		}
 		else
 			cout << "개껌은 없습니다..." << endl;
@@ -107,7 +111,6 @@ void Shop::SellItem(int idx, Character* player)
 			player->deleteItem(51);
 			cout << "사료를 팔아서 5$를 획득했습니다." << endl;
 			InvenDiplay->DisplayInven(player);
-			cout << AvailableItems.size();
 		}
 		else
 			cout << "사료는 없습니다..." << endl;
