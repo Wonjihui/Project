@@ -79,6 +79,25 @@ void GameManager::DisplayInven(Character* player)
 	}
 }
 
+void GameManager::DisplayInvenSell(Character* player)
+{
+	int gold = player->getGold();
+	__int64 HPItemcount;
+	__int64 ATKItemcount;
+	__int64 RVVItemcount; // 부활석
+	FindItem(player, &HPItemcount, &ATKItemcount, &RVVItemcount);
+
+	cout << endl;
+	cout << "+-------------------------------+" << endl;
+	cout << "|         [ 인벤토리 ]          |" << endl;
+	cout << "+-------------------------------+" << endl;
+	cout << "| 재화: " << gold << "골드                   |" << endl;
+	cout << "| 개 껌: " << HPItemcount << "                      |" << endl;
+	cout << "| 사 료: " << ATKItemcount << "                      |" << endl;
+	cout << "| 부활석 :" << RVVItemcount << "                      |" << endl;
+	cout << "+-------------------------------+" << endl;
+}
+
 void GameManager::UseItem(Character* player, const string& itemType)
 {
 	vector<Item*>& inventory = player->getInventory();
@@ -240,9 +259,8 @@ void GameManager::battle(Character* player)
 						Player_->setTotalKillMonster();
 						int rangold = RandomValue(10, 20);
 						Player_->gainGold(rangold);
-						Player_->gainExperience();
 						LootItem(Player_);
-						cout << Player_->getName() << "이(가)" << rangold << "골드를 획득했습니다. 현재 골드: " << Player_->getGold() << endl; // "exp: 50/100" 추가해야됨 getExp()함수 추가해야됨
+						cout << rangold << " 골드 획득!" << endl << "현재 골드 : " << Player_->getGold() << ", Exp : " << Player_->getExp() << " / 100" << endl;
 
 						delete enemy;
 						enemy = nullptr;
@@ -304,7 +322,6 @@ void GameManager::LootItem(Character* player)
 	cout << endl << "* " << player->getName() << "가 전리품을 챙겼습니다! *" << endl;
 	player->gainItem(RandomValue(1, 100));
 	player->gainExperience(); //50exp 고정
-	player->gainGold(RandomValue(10, 20));
 }
 
 int GameManager::FindItem(Character* player, __int64* HPItemcount, __int64* ATKItemcount, __int64* RVVItemcount)

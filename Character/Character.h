@@ -43,6 +43,7 @@ public:
     int getGold() const;
 	int getExp() const;
 
+    void addItem(Item* item) { inventory_.push_back(item); }//test
     void gainGold(int amount);
     std::string getName() const;
     void takeDamage(int damage);

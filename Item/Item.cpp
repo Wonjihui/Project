@@ -51,10 +51,10 @@ void AttackBoost::use(Character* character)
 ReviveStone::ReviveStone(const std::string& name, int ReviveValue)
     : Item(name, "revive", ReviveValue) {
 }
-void ReviveStone::use(Character* character) 
+void ReviveStone::use(Character* character)
 {
     int newRevive = character->getHealth() + getValue();
-    if (newRevive > character->getMaxHealth()) 
+    if (newRevive > character->getMaxHealth())
     {
         newRevive = character->getMaxHealth();
     }
