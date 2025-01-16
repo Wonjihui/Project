@@ -149,4 +149,4 @@ void Human::takeDamage(int damage)
 		exit(0);
 	}
 }
-
+//last
