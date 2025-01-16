@@ -100,7 +100,7 @@ void GameManager::battle(Character* player)
                     int rangold = RandomValue(10, 20);
                     Player_->gainGold(rangold);
                     Player_->gainExperience();
-					cout << Player_->getName() << "ÀÌ(°¡) 50EXP¿Í " << rangold << "°ñµå¸¦ È¹µæÇß½À´Ï´Ù. ÇöÀç °ñµå: " << Player_->getGold() << "Exp :" << Player_->getExp() << endl; // "exp: 50/100" Ãß°¡ÇØ¾ßµÊ getExp()ÇÔ¼ö Ãß°¡ÇØ¾ßµÊ
+					cout << Player_->getName() << "ÀÌ(°¡) 50EXP¿Í " << rangold << "°ñµå¸¦ È¹µæÇß½À´Ï´Ù. ÇöÀç °ñµå: " << Player_->getGold() << "Exp: " << Player_->getExp() <<"/100" << endl;
 
                     delete enemy;
                     enemy = nullptr;
