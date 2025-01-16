@@ -204,13 +204,14 @@ void GameManager::battle(Character* player)
 					}
 					case 2: // 아이템 사용
 					{
-						__int64 HPItemcount, ATKItemcount;
-						FindItem(Player_, &HPItemcount, &ATKItemcount);
+						__int64 HPItemcount, ATKItemcount, RVVItemcount;
+						FindItem(Player_, &HPItemcount, &ATKItemcount, &RVVItemcount);
 						cout << "\n사용할 아이템을 선택하세요:" << endl;
 						cout << "1. 개껌 (HP회복) - " << HPItemcount << "개 보유중" << endl;
 						cout << "2. 사료 (공격력증가) - " << ATKItemcount << "개 보유중" << endl;
 						cout << "3. 돌아가기" << endl;
-						int itemChoice;
+						int itemChoice;						
+
 						cin >> itemChoice;
 
 						break;
