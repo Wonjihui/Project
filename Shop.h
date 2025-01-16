@@ -1,14 +1,11 @@
-#pragma once
+#ifndef SHOP_H
+#define SHOP_H
 #include<vector>
-#include "Item.h"
-#include "HealthPotion.h"
-#include "AttackBoost.h"
 #include "Character.h"
+#include "GameManager.h"
 #include <iostream>
 
-class Character;
-
-class Shop 
+class Shop
 {
 public:
 	Shop();
@@ -16,8 +13,10 @@ public:
 	void DisplayItems();
 	void BuyHealthPotion(int idx, Character* player);
 	void BuyAttackBoost(int idx, Character* player);
+	void BuyReviveStone(int idx, Character* player); // 새로 추가
 	void SellItem(int idx, Character* player);
 
 private:
-	vector<Item*> AvailableItems;
+	std::vector<Item*> AvailableItems;
 };
+#endif
