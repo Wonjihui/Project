@@ -13,6 +13,7 @@ public:
 	void DisplayItems();
 	void BuyHealthPotion(int idx, Character* player);
 	void BuyAttackBoost(int idx, Character* player);
+	void BuyReviveStone(int idx, Character* player);
 	void SellItem(int idx, Character* player);
 
 private:

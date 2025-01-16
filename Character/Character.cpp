@@ -114,9 +114,19 @@ void Character::takeDamage(int damage)
 	health_ -= damage;
 	if (health_ <= 0)
 	{
-		health_ = 0;
 		cout << "캐릭터가 사망했습니다!" << endl;
-		exit(0);
+		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) { return dynamic_cast<ReviveStone*>(i) != nullptr; });
+		if (it != inventory_.end()) {
+			inventory_.erase(it);
+			cout << "인벤토리에 부활석을 사용하였습니다" << endl;
+			health_ += 200;
+			cout << "체력 :" << health_ << "로 부활하였습니다." << endl;
+		}
+		else {
+			health_ = 0;
+			exit(0);
+		}
+
 	}
 }
 
@@ -135,38 +145,44 @@ std::vector<Item*>& Character::getInventory()
     return inventory_;
 }
 
-void Character::gainItem(int value) 
-{
+void Character::gainItem(int value) {
 	{
 		if (value <= 50) {
 			inventory_.emplace_back(new HealthItem("개 껌", 50));
-			cout << "* 개 껌 획득 *" << endl <<endl;
+			cout << "개 껌 획득" << endl;
 		}
-		else if (value > 50)
+		else if (value > 50 && value <= 100)
 		{
 			inventory_.emplace_back(new AttackBoost("사료", 10));
-			cout << "* 사료 획득 *" << endl << endl;
+			cout << "사료 획득" << endl;
+		}
+		else
+		{
+			inventory_.emplace_back(new ReviveStone("부활석", 100));
+			cout << "부활석 획득" << endl;
 		}
 	}
 }
 void Character::deleteItem(int value)
-	{
-		if (value <= 50) 
-		{
-			auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) {return dynamic_cast<HealthItem*>(i) != nullptr;});
-			if (it != inventory_.end()) 
-			{
-				inventory_.erase(it);
-				inventory_.shrink_to_fit();
-			}
-		}
-		else if (value > 50)
-		{
-			auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) {return dynamic_cast<AttackBoost*>(i) != nullptr; });
-			if (it != inventory_.end()) 
-			{
-				inventory_.erase(it);
-				inventory_.shrink_to_fit();
-			}
+{
+	if (value <= 50) {
+		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) { return dynamic_cast<HealthItem*>(i) != nullptr; });
+		if (it != inventory_.end()) {
+			inventory_.erase(it);
 		}
 	}
+	else if (value > 50 && value <= 100)
+	{
+		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) { return dynamic_cast<AttackBoost*>(i) != nullptr; });
+		if (it != inventory_.end()) {
+			inventory_.erase(it);
+		}
+	}
+	else
+	{
+		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) { return dynamic_cast<ReviveStone*>(i) != nullptr; });
+		if (it != inventory_.end()) {
+			inventory_.erase(it);
+		}
+	}
+}
