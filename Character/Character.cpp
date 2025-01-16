@@ -85,6 +85,10 @@ std::string Character::getName() const {
 	return name_;
 }
 
+int Character::getExp() const {
+	return experience_;
+}
+
 void Character::setAttack(int attack) {
 	attack_ = attack;
 }
