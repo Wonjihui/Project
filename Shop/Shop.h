@@ -3,6 +3,7 @@
 #include<vector>
 #include "../Character/Character.h"
 #include "../GameManager/GameManager.h"
+#include "../Item/Item.h" 
 #include <iostream>
 
 class Shop
@@ -13,6 +14,7 @@ public:
 	void DisplayItems();
 	void BuyHealthPotion(int idx, Character* player);
 	void BuyAttackBoost(int idx, Character* player);
+	void BuyReviveStone(int idx, Character* player);
 	void SellItem(int idx, Character* player);
 
 private:
