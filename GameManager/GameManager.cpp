@@ -25,7 +25,7 @@ void GameManager::DisplayInven(Character* player)
 	cout << "| 재화: " << gold << "골드                   |" << endl;
 	cout << "| 개 껌: " << HPItemcount << "                      |" << endl;
 	cout << "| 사 료: " << ATKItemcount << "                      |" << endl;
-	cout << "| 부활석: " << ATKItemcount << "                      |" << endl;
+	cout << "| 부활석: " << ATKItemcount << "                     |" << endl;
 	cout << "+-------------------------------+" << endl;
 
 	if (HPItemcount > 0 || ATKItemcount > 0)
