@@ -8,7 +8,7 @@ void Shop::DisplayItems()
 	AvailableItems = player->getInventory();
 	while (true)
 	{
-		cout << "상점에 방문하였습니다." << endl;
+		cout << endl << "상점에 방문하였습니다." << endl;
 		cout << "1. 개껌 구매하기(50$)" << endl;
 		cout << "2. 사료 구매하기(10$)" << endl;
 		cout << "3. 아이템 판매하기" << endl;
@@ -51,7 +51,7 @@ void Shop::BuyHealthPotion(int idx, Character* player)
 	}
 	else
 	{
-		cout << "골드가 부족합니다." << endl;
+		cout << "골드가 부족합니다." << endl << endl;
 	}
 
 }
@@ -66,7 +66,7 @@ void Shop::BuyAttackBoost(int idx, Character* player)
 		InvenDiplay->DisplayInven(player);
 	}
 	else
-		cout << "골드가 부족합니다." << endl;
+		cout << "골드가 부족합니다." << endl << endl;
 }
 
 void Shop::SellItem(int idx, Character* player)
