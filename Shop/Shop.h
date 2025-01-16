@@ -3,7 +3,6 @@
 #include<vector>
 #include "../Character/Character.h"
 #include "../GameManager/GameManager.h"
-#include "../Item/Item.h" 
 #include <iostream>
 
 class Shop

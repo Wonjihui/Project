@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 int main() {
     int choice;
     bool isRunning = true;
@@ -56,7 +55,7 @@ int main() {
             GameManager gameManager;
 
 
-            gameManager.battle(myCharacter);
+gameManager.battle(myCharacter);
             break;
         }
 

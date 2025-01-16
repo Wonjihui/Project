@@ -114,16 +114,28 @@ void Character::takeDamage(int damage)
 	health_ -= damage;
 	if (health_ <= 0)
 	{
+
 		cout << "캐릭터가 사망했습니다!" << endl;
+
 		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) { return dynamic_cast<ReviveStone*>(i) != nullptr; });
-		if (it != inventory_.end()) {
-			inventory_.erase(it);
+
+		if (it != inventory_.end())
+		{
+			Item* reviveStone = *it;
+			reviveStone->use(this);  //사용
+			inventory_.erase(it);    //인벤에서 삭제
+			delete reviveStone;
+
 			cout << "인벤토리에 부활석을 사용하였습니다" << endl;
-			health_ += 200;
-			cout << "체력 :" << health_ << "로 부활하였습니다." << endl;
+			if (health_ <= 0)
+			{
+				health_ = 200;
+			}
+			cout << "체력: " << health_ << "로 부활하였습니다." << endl;
 		}
 		else {
 			health_ = 0;
+			cout << "부활석이 없어 게임 오버입니다." << endl;
 			exit(0);
 		}
 
@@ -165,22 +177,17 @@ void Character::gainItem(int value) {
 }
 void Character::deleteItem(int value)
 {
-	if (value <= 50)
-	{
-		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) {return dynamic_cast<HealthItem*>(i) != nullptr; });
-		if (it != inventory_.end())
-		{
+	if (value <= 50) {
+		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) { return dynamic_cast<HealthItem*>(i) != nullptr; });
+		if (it != inventory_.end()) {
 			inventory_.erase(it);
-			inventory_.shrink_to_fit();
 		}
 	}
 	else if (value > 50 && value <= 100)
 	{
-		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) {return dynamic_cast<AttackBoost*>(i) != nullptr; });
-		if (it != inventory_.end())
-		{
+		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) { return dynamic_cast<AttackBoost*>(i) != nullptr; });
+		if (it != inventory_.end()) {
 			inventory_.erase(it);
-			inventory_.shrink_to_fit();
 		}
 	}
 	else
@@ -188,7 +195,6 @@ void Character::deleteItem(int value)
 		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) { return dynamic_cast<ReviveStone*>(i) != nullptr; });
 		if (it != inventory_.end()) {
 			inventory_.erase(it);
-			inventory_.shrink_to_fit();
 		}
 	}
 }

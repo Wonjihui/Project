@@ -1,4 +1,5 @@
 #include "Shop.h"
+
 using namespace std;
 Shop::Shop() {}
 //상점 선택창
@@ -26,9 +27,9 @@ void Shop::DisplayItems()
 		{
 			BuyAttackBoost(1, player);
 		}
-		else if (choice == 3)
+		else if (choice == 3) 
 		{
-			BuyReviveStone(1, player);
+				BuyAttackBoost(1, player);
 		}
 		else if (choice == 4)
 		{
@@ -56,21 +57,22 @@ void Shop::BuyHealthPotion(int idx, Character* player)
 	}
 	else
 	{
-		cout << "골드가 부족합니다." << endl;
+		cout << "골드가 부족합니다." << endl << endl;
 	}
 
 }
 void Shop::BuyAttackBoost(int idx, Character* player)
 {
+	GameManager* InvenDiplay = new GameManager();
 	if (player->getGold() >= 10)
 	{
 		cout << "사료를 구매하였습니다." << endl;
 		player->gainGold(-10);
 		player->gainItem(51);
-
+		InvenDiplay->DisplayInven(player);
 	}
 	else
-		cout << "골드가 부족합니다." << endl;
+		cout << "골드가 부족합니다." << endl << endl;
 }
 
 void Shop::BuyReviveStone(int idx, Character* player)
@@ -86,6 +88,7 @@ void Shop::BuyReviveStone(int idx, Character* player)
 	else
 		cout << "골드가 부족합니다." << endl;
 }
+
 void Shop::SellItem(int idx, Character* player)
 {
 	AvailableItems = player->getInventory();
@@ -98,7 +101,7 @@ void Shop::SellItem(int idx, Character* player)
 
 	cout << "보유중인 아이템 :" << endl;
 	GameManager* InvenDiplay = new GameManager();
-	InvenDiplay->DisplayInven(player);
+	InvenDiplay->DisplayInvenSell(player);
 
 	cout << "판매할 아이템을 선택하세요" << endl;
 	cout << "1: 개 껌" << endl;
@@ -121,7 +124,7 @@ void Shop::SellItem(int idx, Character* player)
 			InvenDiplay->DisplayInven(player);
 		}
 		else
-			cout << "개껌은 없습니다..." << endl;
+			cout << "개껌이 없습니다..." << endl;
 		break;
 	case 2:
 		if (atk > 0)
@@ -132,7 +135,7 @@ void Shop::SellItem(int idx, Character* player)
 			InvenDiplay->DisplayInven(player);
 		}
 		else
-			cout << "사료는 없습니다..." << endl;
+			cout << "사료가 없습니다..." << endl;
 		break;
 	case 3:
 		if (rvv > 0)
@@ -142,6 +145,9 @@ void Shop::SellItem(int idx, Character* player)
 			cout << "부활석을 팔아서 60$를 획득했습니다." << endl;
 			InvenDiplay->DisplayInven(player);
 		}
+		else
+			cout << "부활석이 없습니다..." << endl;
+		break;
 	}
 	delete InvenDiplay;
 }
