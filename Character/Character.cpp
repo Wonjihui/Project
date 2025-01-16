@@ -112,7 +112,9 @@ void Character::setAttack(int attack)
 void Character::takeDamage(int damage) 
 {
 	health_ -= damage;
-	if (health_ <= 0) {
+	if (health_ <= 0) 
+	{
+		health_ = 0;
 		cout << "캐릭터가 사망했습니다!" << endl;
 
 			exit(0); // 게임 종료
@@ -140,17 +142,17 @@ void Character::gainItem(int value) {
 	{
 		if (value <= 50) {
 			inventory_.emplace_back(new HealthItem("개 껌", 50));
-			cout << "개 껌 획득" << endl;
+			cout << "* 개 껌 획득 *" << endl;
 		}
 		else if (value > 50 && value <= 100)
 		{
 			inventory_.emplace_back(new AttackBoost("사료", 10));
-			cout << "사료 획득" << endl;
+			cout << "* 사료 획득 *" << endl;
 		}
 		else
 		{
 			inventory_.emplace_back(new ReviveStone("부활석", 100));
-			cout << "부활석 획득" << endl;
+			cout << "* 부활석 획득 *" << endl;
 		}
 	}
 }
