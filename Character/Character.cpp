@@ -11,16 +11,16 @@ Character::Character(const std::string& name, int level, int health, int attack,
 }
 
 
-Character* Character::getInstance(const std::string& name) 
+Character* Character::getInstance(const std::string& name)
 {
-	if (instance == nullptr) 
+	if (instance == nullptr)
 	{
 		instance = new Character(name);
 	}
 	return instance;
 }
 
-void Character::displayStats() const 
+void Character::displayStats() const
 {
 	std::cout << "캐릭터: " << name_ << std::endl;
 	std::cout << "레벨: " << level_ << std::endl;
@@ -30,19 +30,19 @@ void Character::displayStats() const
 	std::cout << "처치한 몬스터 수: " << totalKillMonster_ << std::endl;
 }
 
-void Character::gainExperience() 
+void Character::gainExperience()
 {
 	experience_ += 50;
-	if (experience_ >= 100) 
+	if (experience_ >= 100)
 	{
 		levelUp(experience_ / 100);
 		experience_ %= 100;
 	}
 }
 
-void Character::levelUp(int levels) 
+void Character::levelUp(int levels)
 {
-	if (level_ >= maxLevel_) 
+	if (level_ >= maxLevel_)
 	{
 		return;
 	}
@@ -59,12 +59,12 @@ void Character::levelUp(int levels)
 	std::cout << name_ << " 레벨 업! Lv." << level_ << "!" << std::endl;
 }
 
-int Character::getHealth() const 
+int Character::getHealth() const
 {
 	return health_;
 }
 
-void Character::setHealth(int health) 
+void Character::setHealth(int health)
 {
 	health_ = health;
 }
@@ -74,7 +74,7 @@ int Character::getMaxHealth() const
 	return maxHealth_;
 }
 
-int Character::getAttack() const 
+int Character::getAttack() const
 {
 	return attack_;
 }
@@ -84,7 +84,7 @@ int Character::getLevel() const
 	return level_;
 }
 
-int Character::getGold() const 
+int Character::getGold() const
 {
 	return gold_;
 }
@@ -104,21 +104,21 @@ int Character::getExp() const
 	return experience_;
 }
 
-void Character::setAttack(int attack) 
+void Character::setAttack(int attack)
 {
 	attack_ = attack;
 }
 
-void Character::takeDamage(int damage)
+void Character::takeDamage(int damage) 
 {
 	health_ -= damage;
-	if (health_ <= 0)
-	{
-		health_ = 0;
+	if (health_ <= 0) {
 		cout << "캐릭터가 사망했습니다!" << endl;
-		exit(0);
-	}
+
+			exit(0); // 게임 종료
+		}
 }
+
 
 void Character::setTotalKillMonster()
 {
@@ -132,41 +132,53 @@ void Character::useItem(Item* item)
 
 std::vector<Item*>& Character::getInventory()
 {
-    return inventory_;
+	return inventory_;
 }
 
-void Character::gainItem(int value) 
-{
+
+void Character::gainItem(int value) {
 	{
 		if (value <= 50) {
 			inventory_.emplace_back(new HealthItem("개 껌", 50));
-			cout << "* 개 껌 획득 *" << endl <<endl;
+			cout << "개 껌 획득" << endl;
 		}
-		else if (value > 50)
+		else if (value > 50 && value <= 100)
 		{
 			inventory_.emplace_back(new AttackBoost("사료", 10));
-			cout << "* 사료 획득 *" << endl << endl;
+			cout << "사료 획득" << endl;
+		}
+		else
+		{
+			inventory_.emplace_back(new ReviveStone("부활석", 100));
+			cout << "부활석 획득" << endl;
 		}
 	}
 }
 void Character::deleteItem(int value)
+{
+	if (value <= 50)
 	{
-		if (value <= 50) 
+		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) {return dynamic_cast<HealthItem*>(i) != nullptr; });
+		if (it != inventory_.end())
 		{
-			auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) {return dynamic_cast<HealthItem*>(i) != nullptr;});
-			if (it != inventory_.end()) 
-			{
-				inventory_.erase(it);
-				inventory_.shrink_to_fit();
-			}
-		}
-		else if (value > 50)
-		{
-			auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) {return dynamic_cast<AttackBoost*>(i) != nullptr; });
-			if (it != inventory_.end()) 
-			{
-				inventory_.erase(it);
-				inventory_.shrink_to_fit();
-			}
+			inventory_.erase(it);
+			inventory_.shrink_to_fit();
 		}
 	}
+	else if (value > 50 && value <= 100)
+	{
+		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) {return dynamic_cast<AttackBoost*>(i) != nullptr; });
+		if (it != inventory_.end())
+		{
+			inventory_.erase(it);
+			inventory_.shrink_to_fit();
+		}
+	}
+	else
+	{
+		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) { return dynamic_cast<ReviveStone*>(i) != nullptr; });
+		if (it != inventory_.end()) {
+			inventory_.erase(it);
+		}
+	}
+}
