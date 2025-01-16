@@ -152,77 +152,121 @@ void GameManager::battle(Character* player)
 
 		switch (move)
 		{
-		case 1: // 몬스터와 전투
+		case 1: // 몬스터 전투
 		{
-			cout << endl <<"앞으로 이동 중..." << endl << endl;
-			cout << "몬스터를 만났습니다!" << endl << endl;
-			cout << "전투: 1 | 도망: 2" << endl;
+			cout << "앞으로 이동 중..." << endl << endl;
+			Monster* enemy = nullptr;
+			if (Player_->getLevel() < 10)
+			{
+				enemy = generateMonster(Player_->getLevel());
+				cout << "앗! " << enemy->getName() << "가 나타났다!" << endl << endl;
+			}
+			else
+			{
+				enemy = generateBossMonster(Player_->getLevel());
+				cout << "마지막이군... " << enemy->getName() << "가 나타났다!" << endl << endl;
+			}
+
+			cout << enemy->getName() << "의 능력치 - HP: " << enemy->getHealth() << " ATK: " << enemy->getAttack() << endl << endl;
+			cout << "용맹하게 싸우기! : 1" << endl;
+			cout << "꼬리 말고 도망치기... : 2" << endl;
 			cin >> move;
 			switch (move)
 			{
 			case 1:
 			{
-				Monster* enemy = nullptr;
-
-				if (Player_->getLevel() < 10)
-				{
-					// 일반 몬스터 생성
-					enemy = generateMonster(Player_->getLevel());
-					cout << "앗! 몬스터 " << enemy->getName() << " 이(가) 나타났습니다!" << endl;
-				}
-				else
-				{
-					// 보스 몬스터 생성
-					enemy = generateBossMonster(Player_->getLevel());
-					cout << "마지막이군... 보스 몬스터 " << enemy->getName() << " 이 나타났습니다!" << endl;
-				}
-
-				cout << enemy->getName() << " HP: " << enemy->getHealth() << " ATK: " << enemy->getAttack() << endl << endl;
-
+				int turnCount = 1;
 				while (enemy != nullptr && Player_ != nullptr && enemy->getHealth() > 0 && Player_->getHealth() > 0)
 				{
-					// 캐릭터가 몬스터 공격
-					enemy->takeDamage(Player_->getAttack());
-					if (enemy->getHealth() <= 0)//몬스터 죽었을때
+					cout << "=====Turn" << turnCount << "=====" << endl;
+
+					cout << "\n[현재 상태]" << endl;
+					cout << Player_->getName() << " - HP: " << Player_->getHealth() << endl;
+					cout << enemy->getName() << " - HP: " << enemy->getHealth() << endl << endl;
+
+					cout << "당신의 턴입니다!\n" << endl;
+					cout << "1. 일반 공격" << endl;
+					cout << "2. 아이템 사용" << endl;
+					cout << "3. 도망가기" << endl;
+					cout << "선택:\n ";
+					int choice;
+					cin >> choice;
+
+					switch (choice) {
+					case 1:
 					{
-						cout << Player_->getName() << "이(가) " << enemy->getName() << "을(를) 공격했다! " << enemy->getName() << "의 남은 HP: 0" << endl;
-						cout << enemy->getName() << "이(가) 쓰러졌다! 승리!" << endl;
+						enemy->takeDamage(Player_->getAttack());
+						cout << Player_->getName() << "이(가) " << enemy->getName() << "을(를) 공격했다!\n" << endl;
+						cout << enemy->getName() << "의 남은 HP:\n " << max(0, enemy->getHealth()) << endl;
+						break;
+					}
+					case 2: // 아이템 사용
+					{
+						__int64 HPItemcount, ATKItemcount;
+						FindItem(Player_, &HPItemcount, &ATKItemcount);
+						cout << "\n사용할 아이템을 선택하세요:" << endl;
+						cout << "1. 개껌 (HP회복) - " << HPItemcount << "개 보유중" << endl;
+						cout << "2. 사료 (공격력증가) - " << ATKItemcount << "개 보유중" << endl;
+						cout << "3. 돌아가기" << endl;
+						int itemChoice;
+						cin >> itemChoice;
+
+						break;
+					}
+					case 3:
+					{
+						if (RandomValue(1, 100) <= 30) {
+							cout << Player_->getName() << "은(는) 도망치는데 성공했다!" << endl;
+							delete enemy;
+							return;
+						}
+						else {
+							cout << Player_->getName() << "은(는) 도망치지 못했다!" << endl;
+						}
+						break;
+					}
+					default:
+						cout << "잘못된 선택입니다. 턴을 넘깁니다." << endl;
+						break;
+					}
+
+
+					if (enemy->getHealth() <= 0) {
+						cout << Player_->getName() << "이(가) " << enemy->getName() << "을(를) 공격했다! " << enemy->getName() << "의 남은 HP: 0\n" << endl;
+						cout << enemy->getName() << "이(가) 쓰러졌다! 승리!\n" << endl;
 						Player_->setTotalKillMonster();
 						int rangold = RandomValue(10, 20);
 						Player_->gainGold(rangold);
 						Player_->gainExperience();
 						LootItem(Player_);
-						cout << "현재 골드 : " << Player_->getGold() << ", Exp : " << Player_->getExp() << " / 100" << endl;
+						cout << Player_->getName() << "이(가)" << rangold << "골드를 획득했습니다. 현재 골드: " << Player_->getGold() << endl; // "exp: 50/100" 추가해야됨 getExp()함수 추가해야됨
 
 						delete enemy;
 						enemy = nullptr;
 						break;
 					}
-					else
-					{
-						cout << Player_->getName() << "이(가) " << enemy->getName() << "을(를) 공격했다! " << enemy->getName() << "의 남은 HP: " << enemy->getHealth() << endl;
-					}
 
-
-
-
-					// 몬스터가 캐릭터 공격
+					// 몬스터 턴
+					cout << "\n" << enemy->getName() << "의 턴입니다!" << endl;
 					Player_->takeDamage(enemy->getAttack());
-					cout << enemy->getName() << "이(가) " << Player_->getName() << "을(를) 공격했다! " << Player_->getName() << "의 남은 HP: " << Player_->getHealth() << endl;
+					cout << enemy->getName() << "이(가) " << Player_->getName() << "을(를) 공격했다!\n" << endl;
+					cout << Player_->getName() << "의 남은 HP: " << Player_->getHealth() << endl;
 
-					if (Player_->getHealth() <= 0) //캐릭터 죽었을때
-					{
-						cout << Player_->getName() << "이(가) 쓰러졌다! 게임 오버!" << endl;
+					// 플레이어 생존 확인
+					if (Player_->getHealth() <= 0) {
+						cout << "\n" << Player_->getName() << "이(가) 쓰러졌다! 게임 오버!/n" << endl;
 						delete Player_;
 						Player_ = nullptr;
 						break;
 					}
+
+					turnCount++;
 				}
 				break;
 			}
 			case 2:
 			{
-				cout << player->getName() << "은(는) 도망쳤다!" << endl;
+				cout << player->getName() << "은(는) 꼬리를 말고 도망쳤다!" << endl;
 				break;
 			}
 			default:
