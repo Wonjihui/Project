@@ -1,14 +1,14 @@
 #ifndef ITEM_H
 #define ITEM_H
-
 #include <iostream>
 #include "../Character/Character.h"
 class Character;
+
 class Item
 {
 protected:
-    std::string name_;
     int value_;
+    std::string name_;
     std::string type_;
 
 public:
@@ -17,19 +17,21 @@ public:
     virtual ~Item() = default;
 
     std::string getName()const;
+    std::string getType() const;
     int getValue()const;
-
     virtual void use(Character* character) = 0;
 };
 
-class HealthItem : public Item {
+class HealthItem : public Item 
+{
 public:
     HealthItem(const std::string& name, int restoreValue);
     void use(Character* character) override;
 };
 
 
-class AttackBoost : public Item {
+class AttackBoost : public Item 
+{
 public:
     AttackBoost(const std::string& name, int boostValue);
     void use(Character* character) override;

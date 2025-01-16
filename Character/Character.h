@@ -41,6 +41,7 @@ public:
     int getAttack() const;
     int getLevel() const;
     int getGold() const;
+	int getExp() const;
 
     void gainGold(int amount);
     std::string getName() const;

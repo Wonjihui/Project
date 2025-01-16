@@ -8,7 +8,7 @@ void Shop::DisplayItems()
 	AvailableItems = player->getInventory();
 	while (true)
 	{
-		cout << "상점에 방문하였습니다." << endl;
+		cout << endl << "상점에 방문하였습니다." << endl;
 		cout << "1. 개껌 구매하기(50$)" << endl;
 		cout << "2. 사료 구매하기(10$)" << endl;
 		cout << "3. 아이템 판매하기" << endl;
@@ -17,20 +17,25 @@ void Shop::DisplayItems()
 		int choice; // 사용자의 메뉴 선택을 저장
 		cin >> choice;
 
-		if (choice == 1) {
+		if (choice == 1)
+		{
 			BuyHealthPotion(1, player);
 		}
-		else if (choice == 2) {
+		else if (choice == 2)
+		{
 			BuyAttackBoost(1, player);
 		}
-		else if (choice == 3) {
+		else if (choice == 3)
+		{
 			SellItem(1, player);
 		}
-		else if (choice == 4) {
+		else if (choice == 4)
+		{
 			cout << "로비로 이동합니다." << endl;
 			break;
 		}
-		else {
+		else
+		{
 			cout << "잘못된 접근입니다. 1~4중에 선택하세요." << endl;
 		}
 	}
@@ -46,7 +51,7 @@ void Shop::BuyHealthPotion(int idx, Character* player)
 	}
 	else
 	{
-		cout << "골드가 부족합니다." << endl;
+		cout << "골드가 부족합니다." << endl << endl;
 	}
 
 }
@@ -61,7 +66,7 @@ void Shop::BuyAttackBoost(int idx, Character* player)
 		InvenDiplay->DisplayInven(player);
 	}
 	else
-		cout << "골드가 부족합니다." << endl;
+		cout << "골드가 부족합니다." << endl << endl;
 }
 
 void Shop::SellItem(int idx, Character* player)

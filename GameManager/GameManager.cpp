@@ -1,4 +1,4 @@
-#include "GameManager.h"
+Ôªø#include "GameManager.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -7,224 +7,263 @@ using namespace std;
 
 GameManager::GameManager()
 {
-    srand(static_cast<unsigned>(time(0))); // ∑£¥˝ Ω√µÂ √ ±‚»≠
+	srand(static_cast<unsigned>(time(0))); // ÎûúÎç§ ÏãúÎìú Ï¥àÍ∏∞Ìôî
 }
+
 void GameManager::DisplayInven(Character* player)
 {
-    int gold = player->getGold();
-    __int64 HPItemcount;
-    __int64 ATKItemcount;
-    FindItem(player, &HPItemcount, &ATKItemcount);
-    cout << "¿Á»≠: " << gold << "∞ÒµÂ" << endl << "∞≥ ≤≠:" << HPItemcount << endl << "ªÁ∑·:" << ATKItemcount << endl << endl;
+	int gold = player->getGold();
+	__int64 HPItemcount;
+	__int64 ATKItemcount;
+	FindItem(player, &HPItemcount, &ATKItemcount);
+
+	cout << endl;
+	cout << "+-------------------------------+" << endl;
+	cout << "|         [ Ïù∏Î≤§ÌÜ†Î¶¨ ]          |" << endl;
+	cout << "+-------------------------------+" << endl;
+	cout << "| Ïû¨Ìôî: " << gold << "Í≥®Îìú                   |" << endl;
+	cout << "| Í∞ú Íªå: " << HPItemcount << "                      |" << endl;
+	cout << "| ÏÇ¨ Î£å: " << ATKItemcount << "                      |" << endl;
+	cout << "+-------------------------------+" << endl;
+
+	if (HPItemcount > 0 || ATKItemcount > 0)
+	{
+		int choice;
+		cout << "+-------------------------------+" << endl;
+		cout << "|   ÏïÑÏù¥ÌÖúÏùÑ ÏÇ¨Ïö©ÌïòÏãúÍ≤†ÏäµÎãàÍπå?   |" << endl;
+		cout << "+-------------------------------+" << endl;
+		cout << "| 1. Í∞úÍªå ÏÇ¨Ïö©                  |" << endl;
+		cout << "| 2. ÏÇ¨Î£å ÏÇ¨Ïö©                  |" << endl;
+		cout << "| 3. ÎÇòÍ∞ÄÍ∏∞                     |" << endl;
+		cout << "+-------------------------------+" << endl;
+		cin >> choice;
+
+		switch (choice)
+		{
+		case 1: // Í∞úÍªå ÏÇ¨Ïö©
+			if (HPItemcount > 0)
+			{
+				UseItem(player, "health");
+			}
+			else
+			{
+				cout << "Í∞úÍªåÏù¥ ÏóÜÏäµÎãàÎã§!" << endl;
+			}
+			break;
+
+		case 2: // ÏÇ¨Î£å ÏÇ¨Ïö©
+			if (ATKItemcount > 0)
+			{
+				UseItem(player, "attack");
+			}
+			else
+			{
+				cout << "ÏÇ¨Î£åÍ∞Ä ÏóÜÏäµÎãàÎã§!" << endl;
+			}
+			break;
+
+		case 3: // ÎÇòÍ∞ÄÍ∏∞
+			cout << "Ïù∏Î≤§ÌÜ†Î¶¨Î•º Îã´ÏäµÎãàÎã§." << endl;
+			break;
+
+		default:
+			cout << "ÏûòÎ™ªÎêú ÏûÖÎ†•ÏûÖÎãàÎã§." << endl;
+			break;
+		}
+	}
+	else
+	{
+		cout << "ÏÇ¨Ïö©Ìï† ÏïÑÏù¥ÌÖúÏù¥ ÏóÜÏäµÎãàÎã§!" << endl;
+	}
 }
+
+void GameManager::UseItem(Character* player, const string& itemType)
+{
+	vector<Item*>& inventory = player->getInventory();
+	auto it = find_if(inventory.begin(), inventory.end(), [&](Item* i) 
+		{
+		return i->getType() == itemType;
+		});
+
+	if (it != inventory.end())
+	{
+		Item* item = *it;
+		item->use(player);
+		inventory.erase(it); // ÏÇ¨Ïö©Ìïú ÏïÑÏù¥ÌÖú Ï†úÍ±∞
+		delete item;
+	}
+	else
+	{
+		cout << "Ìï¥Îãπ ÏïÑÏù¥ÌÖúÏù¥ ÏóÜÏäµÎãàÎã§!" << endl;
+	}
+}
+
 
 int GameManager::RandomValue(int min, int max)
 {
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<int> dis(min, max);
-    return dis(gen);
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<int> dis(min, max);
+	return dis(gen);
 }
 Monster* GameManager::generateMonster(int level)
 {
-    int monsterType = rand() % 4; // 0~3 ªÁ¿Ã¿« ∑£¥˝ ∞™
-    switch (monsterType)
-    {
-    case 0:
-        return new Maltese(level);
-    case 1:
-        return new Pomeranian(level);
-    case 2:
-        return new Malamute(level);
-    case 3:
-        return new Samoyed(level);
-    default:
-        return nullptr;
-    }
+	int monsterType = rand() % 4; // 0~3 ÏÇ¨Ïù¥Ïùò ÎûúÎç§ Í∞í
+	switch (monsterType)
+	{
+	case 0:
+		return new Maltese(level);
+	case 1:
+		return new Pomeranian(level);
+	case 2:
+		return new Malamute(level);
+	case 3:
+		return new Samoyed(level);
+	default:
+		return nullptr;
+	}
 }
 
 Human* GameManager::generateBossMonster(int level)
 {
-    return new Human(level);
+	return new Human(level);
 }
 
 void GameManager::battle(Character* player)
 {
-    Character* InsPlayer = player;
-    InsPlayer->displayStats();
+	Character* Player_ = player;
+	Player_->displayStats();
 
 
-    cout << "∞‘¿”¿ª Ω√¿€«’¥œ¥Ÿ!" << endl << endl;
-    while (InsPlayer != nullptr)
-    {
-        int move = 0;
-        cout << endl
-            << "æ’¿∏∑Œ ¿Ãµø : 1 " << endl
-            << "ªÛ¡° ¿ÃøÎ : 2" << endl
-            << "Ω∫≈› »Æ¿Œ : 3" << endl
-            << "¿Œ∫•≈‰∏Æ : 4" << endl;
-        cin >> move;
+	cout << "Í≤åÏûÑÏùÑ ÏãúÏûëÌï©ÎãàÎã§!" << endl;
+	while (Player_ != nullptr)
+	{
+		int move = 0;
+		cout << endl;
+		cout << "+-------------------------------+" << endl;
+		cout << "|      [ ÏÑ†ÌÉùÏßÄÎ•º Í≥†Î•¥ÏÑ∏Ïöî ]    |" << endl;
+		cout << "+-------------------------------+" << endl;
+		cout << "| 1. ÏïûÏúºÎ°ú Ïù¥Îèô                |" << endl;
+		cout << "| 2. ÏÉÅÏ†ê Ïù¥Ïö©                  |" << endl;
+		cout << "| 3. Ïä§ÌÉØ ÌôïÏù∏                  |" << endl;
+		cout << "| 4. Ïù∏Î≤§ÌÜ†Î¶¨                   |" << endl;
+		cout << "+-------------------------------+" << endl;
+		cin >> move;
 
-        switch (move)
-        {
-        case 1: // ∏ÛΩ∫≈Õ ¿¸≈ı
-        {
-            cout << "æ’¿∏∑Œ ¿Ãµø ¡ﬂ..." << endl << endl;
-            Monster* enemy = nullptr;
-            if (InsPlayer->getLevel() < 10)
-            {
-                enemy = generateMonster(InsPlayer->getLevel());
-                cout << "æ—! " << enemy->getName() << "∞° ≥™≈∏≥µ¥Ÿ!" << endl << endl;
-            }
-            else
-            {
-                enemy = generateBossMonster(InsPlayer->getLevel());
-                cout << "∏∂¡ˆ∏∑¿Ã±∫... " << enemy->getName() << "∞° ≥™≈∏≥µ¥Ÿ!" << endl << endl;
-            }
+		switch (move)
+		{
+		case 1: // Î™¨Ïä§ÌÑ∞ÏôÄ Ï†ÑÌà¨
+		{
+			cout << endl <<"ÏïûÏúºÎ°ú Ïù¥Îèô Ï§ë..." << endl << endl;
+			cout << "Î™¨Ïä§ÌÑ∞Î•º ÎßåÎÇ¨ÏäµÎãàÎã§!" << endl << endl;
+			cout << "Ï†ÑÌà¨: 1 | ÎèÑÎßù: 2" << endl;
+			cin >> move;
+			switch (move)
+			{
+			case 1:
+			{
+				Monster* enemy = nullptr;
 
-            cout << enemy->getName() << "¿« ¥…∑¬ƒ° - HP: " << enemy->getHealth() << " ATK: " << enemy->getAttack() << endl << endl;
-            cout << "øÎ∏Õ«œ∞‘ ΩŒøÏ±‚! : 1" << endl;
-            cout << "≤ø∏Æ ∏ª∞Ì µµ∏¡ƒ°±‚... : 2" << endl;
-            cin >> move;
-            switch (move)
-            {
-            case 1:
-            {
-                int turnCount = 1;
-                while (enemy != nullptr && InsPlayer != nullptr && enemy->getHealth() > 0 && InsPlayer->getHealth() > 0)
-                {
-                    cout << "=====Turn" << turnCount << "=====" << endl;
-                    
-                    cout << "\n[«ˆ¿Á ªÛ≈¬]" << endl;
-                    cout << InsPlayer->getName() << " - HP: " << InsPlayer->getHealth() << endl;
-                    cout << enemy->getName() << " - HP: " << enemy->getHealth() << endl << endl;
+				if (Player_->getLevel() < 10)
+				{
+					// ÏùºÎ∞ò Î™¨Ïä§ÌÑ∞ ÏÉùÏÑ±
+					enemy = generateMonster(Player_->getLevel());
+					cout << "Î™¨Ïä§ÌÑ∞ " << enemy->getName() << " Ïù¥(Í∞Ä) ÎÇòÌÉÄÎÇ¨ÏäµÎãàÎã§!" << endl;
+				}
+				else
+				{
+					// Î≥¥Ïä§ Î™¨Ïä§ÌÑ∞ ÏÉùÏÑ±
+					enemy = generateBossMonster(Player_->getLevel());
+					cout << "Î≥¥Ïä§ Î™¨Ïä§ÌÑ∞ " << enemy->getName() << " Ïù¥(Í∞Ä) ÎÇòÌÉÄÎÇ¨ÏäµÎãàÎã§!" << endl;
+				}
 
-                    cout << "¥ÁΩ≈¿« ≈œ¿‘¥œ¥Ÿ!\n" << endl;
-                    cout << "1. ¿œπ› ∞¯∞›" << endl;
-                    cout << "2. æ∆¿Ã≈€ ªÁøÎ" << endl;
-                    cout << "3. µµ∏¡∞°±‚" << endl;
-                    cout << "º±≈√:\n ";
-                    int choice;
-                    cin >> choice; 
+				cout << enemy->getName() << " HP: " << enemy->getHealth() << " ATK: " << enemy->getAttack() << endl << endl;
 
-                    switch (choice) {
-                    case 1: 
-                    {
-                        enemy->takeDamage(InsPlayer->getAttack());
-                        cout << InsPlayer->getName() << "¿Ã(∞°) " << enemy->getName() << "¿ª(∏¶) ∞¯∞›«ﬂ¥Ÿ!\n" << endl;
-                        cout << enemy->getName() << "¿« ≥≤¿∫ HP:\n " << max(0, enemy->getHealth()) << endl;
-                        break;
-                    }
-                    case 2: // æ∆¿Ã≈€ ªÁøÎ
-                    {
-                        __int64 HPItemcount, ATKItemcount;
-                        FindItem(InsPlayer, &HPItemcount, &ATKItemcount);
-                        cout << "\nªÁøÎ«“ æ∆¿Ã≈€¿ª º±≈√«œººø‰:" << endl;
-                        cout << "1. ∞≥≤≠ (HP»∏∫π) - " << HPItemcount << "∞≥ ∫∏¿Ø¡ﬂ" << endl;
-                        cout << "2. ªÁ∑· (∞¯∞›∑¬¡ı∞°) - " << ATKItemcount << "∞≥ ∫∏¿Ø¡ﬂ" << endl;
-                        cout << "3. µπæ∆∞°±‚" << endl;
-                        int itemChoice;
-                        cin >> itemChoice;
-                        
-                        break;
-                    }
-                    case 3: 
-                    {
-                        if (RandomValue(1, 100) <= 30) {
-                            cout << InsPlayer->getName() << "¿∫(¥¬) µµ∏¡ƒ°¥¬µ• º∫∞¯«ﬂ¥Ÿ!" << endl;
-                            delete enemy;
-                            return;
-                        }
-                        else {
-                            cout << InsPlayer->getName() << "¿∫(¥¬) µµ∏¡ƒ°¡ˆ ∏¯«ﬂ¥Ÿ!" << endl;
-                        }
-                        break;
-                    }
-                    default:
-                        cout << "¿ﬂ∏¯µ» º±≈√¿‘¥œ¥Ÿ. ≈œ¿ª ≥—±È¥œ¥Ÿ." << endl;
-                        break;
-                    }
+				while (enemy != nullptr && Player_ != nullptr && enemy->getHealth() > 0 && Player_->getHealth() > 0)
+				{
+					// Ï∫êÎ¶≠ÌÑ∞Í∞Ä Î™¨Ïä§ÌÑ∞ Í≥µÍ≤©
+					enemy->takeDamage(Player_->getAttack());
+					if (enemy->getHealth() <= 0)//Î™¨Ïä§ÌÑ∞ Ï£ΩÏóàÏùÑÎïå
+					{
+						cout << Player_->getName() << "Ïù¥(Í∞Ä) " << enemy->getName() << "ÏùÑ(Î•º) Í≥µÍ≤©ÌñàÎã§! " << enemy->getName() << "Ïùò ÎÇ®ÏùÄ HP: 0" << endl;
+						cout << enemy->getName() << "Ïù¥(Í∞Ä) Ïì∞Îü¨Ï°åÎã§! ÏäπÎ¶¨!" << endl;
+						Player_->setTotalKillMonster();
+						int rangold = RandomValue(10, 20);
+						Player_->gainGold(rangold);
+						Player_->gainExperience();
+						LootItem(Player_);
+						cout << "ÌòÑÏû¨ Í≥®Îìú : " << Player_->getGold() << ", Exp : " << Player_->getExp() << " / 100" << endl;
 
-                   
-                    if (enemy->getHealth() <= 0) {
-                        cout << InsPlayer->getName() << "¿Ã(∞°) " << enemy->getName() << "¿ª(∏¶) ∞¯∞›«ﬂ¥Ÿ! " << enemy->getName() << "¿« ≥≤¿∫ HP: 0\n" << endl;
-                        cout << enemy->getName() << "¿Ã(∞°) æ≤∑Ø¡≥¥Ÿ! Ω¬∏Æ!\n" << endl;
-                        InsPlayer->setTotalKillMonster();
-                        int rangold = RandomValue(10, 20);
-                        InsPlayer->gainGold(rangold);
-                        InsPlayer->gainExperience();
-                        LootItem(InsPlayer);
-                        cout << InsPlayer->getName() << "¿Ã(∞°)" << rangold << "∞ÒµÂ∏¶ »πµÊ«ﬂΩ¿¥œ¥Ÿ. «ˆ¿Á ∞ÒµÂ: " << InsPlayer->getGold() << endl; // "exp: 50/100" √ﬂ∞°«ÿæﬂµ  getExp()«‘ºˆ √ﬂ∞°«ÿæﬂµ 
+						delete enemy;
+						enemy = nullptr;
+						break;
+					}
+					else
+					{
+						cout << Player_->getName() << "Ïù¥(Í∞Ä) " << enemy->getName() << "ÏùÑ(Î•º) Í≥µÍ≤©ÌñàÎã§! " << enemy->getName() << "Ïùò ÎÇ®ÏùÄ HP: " << enemy->getHealth() << endl;
+					}
 
-                        delete enemy;
-                        enemy = nullptr;
-                        break;
-                    }
 
-                    // ∏ÛΩ∫≈Õ ≈œ
-                    cout << "\n" << enemy->getName() << "¿« ≈œ¿‘¥œ¥Ÿ!" << endl;
-                    InsPlayer->takeDamage(enemy->getAttack());
-                    cout << enemy->getName() << "¿Ã(∞°) " << InsPlayer->getName() << "¿ª(∏¶) ∞¯∞›«ﬂ¥Ÿ!\n" << endl;
-                    cout << InsPlayer->getName() << "¿« ≥≤¿∫ HP: " << InsPlayer->getHealth() << endl;
 
-                    // «√∑π¿ÃæÓ ª˝¡∏ »Æ¿Œ
-                    if (InsPlayer->getHealth() <= 0) {
-                        cout << "\n" << InsPlayer->getName() << "¿Ã(∞°) æ≤∑Ø¡≥¥Ÿ! ∞‘¿” ø¿πˆ!/n" << endl;
-                        delete InsPlayer;
-                        InsPlayer = nullptr;
-                        break;
-                    }
 
-                    turnCount++;
-                }
-                break;
-            }
-            case 2:
-            {
-                cout << player->getName() << "¿∫(¥¬) ≤ø∏Æ∏¶ ∏ª∞Ì µµ∏¡√∆¥Ÿ!" << endl;
-                break;
-            }
-            default:
-                cout << "¿ﬂ∏¯µ» ¿‘∑¬¿‘¥œ¥Ÿ." << endl;
-                break;
-            }
-            break;
-        }
+					// Î™¨Ïä§ÌÑ∞Í∞Ä Ï∫êÎ¶≠ÌÑ∞ Í≥µÍ≤©
+					Player_->takeDamage(enemy->getAttack());
+					cout << enemy->getName() << "Ïù¥(Í∞Ä) " << Player_->getName() << "ÏùÑ(Î•º) Í≥µÍ≤©ÌñàÎã§! " << Player_->getName() << "Ïùò ÎÇ®ÏùÄ HP: " << Player_->getHealth() << endl;
 
-        case 2: // ªÛ¡°
-        {
-            Shop* shop = new Shop();
-            shop->DisplayItems();
-            break;
-        }
-        case 3: // Ω∫≈» »Æ¿Œ
-            InsPlayer->displayStats();
-            break;
+					if (Player_->getHealth() <= 0) //Ï∫êÎ¶≠ÌÑ∞ Ï£ΩÏóàÏùÑÎïå
+					{
+						cout << Player_->getName() << "Ïù¥(Í∞Ä) Ïì∞Îü¨Ï°åÎã§! Í≤åÏûÑ Ïò§Î≤Ñ!" << endl;
+						delete Player_;
+						Player_ = nullptr;
+						break;
+					}
+				}
+				break;
+			}
+			case 2:
+			{
+				cout << player->getName() << "ÏùÄ(Îäî) ÎèÑÎßùÏ≥§Îã§!" << endl;
+				break;
+			}
+			default:
+				cout << "ÏûòÎ™ªÎêú ÏûÖÎ†•ÏûÖÎãàÎã§." << endl;
+				break;
+			}
+			break;
+		}
+		case 2: // ÏÉÅÏ†ê
+		{
+			Shop* shop = new Shop();
+			shop->DisplayItems();
+			break;
+		}
+		case 3: // Ïä§ÌÉØ ÌôïÏù∏
+			Player_->displayStats();
+			break;
 
-        case 4: // ¿Œ∫•≈‰∏Æ »Æ¿Œ
-            cout << "¿Œ∫•≈‰∏Æ ø¿«¬" << endl;
-            DisplayInven(InsPlayer);
-            break;
+		case 4: // Ïù∏Î≤§ÌÜ†Î¶¨ ÌôïÏù∏
+			DisplayInven(Player_);
+			break;
 
-        default:
-            cout << "¿ﬂ∏¯µ» ¿‘∑¬¿‘¥œ¥Ÿ." << endl;
-            break;
-        }
-    }
+		default:
+			cout << "ÏûòÎ™ªÎêú ÏûÖÎ†•ÏûÖÎãàÎã§." << endl;
+			break;
+		}
+	}
 }
 
 void GameManager::LootItem(Character* player)
 {
-    cout << player->getName() << "∞° ¿¸∏Æ«∞¿ª √¨∞Â¥Ÿ!" << endl;
-    player->gainItem(RandomValue(1, 100));
-    player->gainExperience(); //50exp ∞Ì¡§
-    player->gainGold(RandomValue(10, 20));
+	cout << endl << "* " << player->getName() << "Í∞Ä Ï†ÑÎ¶¨ÌíàÏùÑ Ï±ôÍ≤ºÏäµÎãàÎã§! *" << endl;
+	player->gainItem(RandomValue(1, 100));
+	player->gainExperience(); //50exp Í≥†Ï†ï
+	player->gainGold(RandomValue(10, 20));
 }
 
 int GameManager::FindItem(Character* player, __int64* HPItemcount, __int64* ATKItemcount)
 {
-    vector<Item*> item = player->getInventory();
-    *HPItemcount = count_if(item.begin(), item.end(), [](Item* i) { return dynamic_cast<HealthItem*>(i) != nullptr; });
-    *ATKItemcount = count_if(item.begin(), item.end(), [](Item* i) { return dynamic_cast<AttackBoost*>(i) != nullptr; });
-    return 0;
+	vector<Item*> item = player->getInventory();
+	*HPItemcount = count_if(item.begin(), item.end(), [](Item* i) { return dynamic_cast<HealthItem*>(i) != nullptr; });
+	*ATKItemcount = count_if(item.begin(), item.end(), [](Item* i) { return dynamic_cast<AttackBoost*>(i) != nullptr; });
+	return 0;
 }

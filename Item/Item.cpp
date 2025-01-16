@@ -11,6 +11,10 @@ std::string Item::getName() const
 {
     return name_;
 }
+std::string Item::getType() const
+{
+    return type_;
+}
 int Item::getValue() const
 {
     return value_;
