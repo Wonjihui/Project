@@ -95,6 +95,7 @@ void Shop::SellItem(int idx, Character* player)
 			player->deleteItem(1);
 			cout << "°³²­À» ÆÈ¾Æ¼­ 30$¸¦ È¹µæÇß½À´Ï´Ù." << endl;
 			InvenDiplay->DisplayInven(player);
+			cout << AvailableItems.size();
 		}
 		else
 			cout << "°³²­Àº ¾ø½À´Ï´Ù..." << endl;
@@ -106,6 +107,7 @@ void Shop::SellItem(int idx, Character* player)
 			player->deleteItem(51);
 			cout << "»ç·á¸¦ ÆÈ¾Æ¼­ 5$¸¦ È¹µæÇß½À´Ï´Ù." << endl;
 			InvenDiplay->DisplayInven(player);
+			cout << AvailableItems.size();
 		}
 		else
 			cout << "»ç·á´Â ¾ø½À´Ï´Ù..." << endl;
