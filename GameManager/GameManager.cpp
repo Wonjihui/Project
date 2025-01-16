@@ -269,7 +269,7 @@ void GameManager::battle(Character* player)
 			}
 			case 2:
 			{
-				cout << player->getName() << "은(는) 꼬리를 말고 도망쳤다!" << endl;
+				cout << player->getName() << "은(는) 꼬리를 말고 도망쳤다!!" << endl;
 				break;
 			}
 			default:
