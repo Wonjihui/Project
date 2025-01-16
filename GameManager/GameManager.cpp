@@ -1,4 +1,4 @@
-﻿#include "GameManager.h"
+#include "GameManager.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -32,7 +32,7 @@ void GameManager::DisplayInven(Character* player)
 	{
 		int choice;
 		cout << "+-------------------------------+" << endl;
-		cout << "|   아이템을 사용하시겠습니까?   |" << endl;
+		cout << "|   아이템을 사용하시겠습니까?  |" << endl;
 		cout << "+-------------------------------+" << endl;
 		cout << "| 1. 개껌 사용                  |" << endl;
 		cout << "| 2. 사료 사용                  |" << endl;
@@ -252,42 +252,32 @@ void GameManager::battle(Character* player)
 						break;
 					}
 
-
 					if (enemy->getHealth() <= 0) {
 						cout << Player_->getName() << "이(가) " << enemy->getName() << "을(를) 공격했다! " << enemy->getName() << "의 남은 HP: 0\n" << endl;
-						cout << enemy->getName() << "이(가) 쓰러졌다! 승리!\n" << endl;
+						cout << enemy->getName() << "이(가) 쓰러졌다!" << endl;
+
+						
+						if (dynamic_cast<Human*>(enemy)) {
+							cout << enemy->getName() << "이(가) 쓰러졌다! 축하합니다! 이제 이 세계는 "
+								<< Player_->getName() << "(의) 것입니다!" << endl;
+							delete enemy; 
+							enemy = nullptr;
+							exit(0); // 보스 몬스터에게 이길시 프로그램 종료
+						}
+
+						
 						Player_->setTotalKillMonster();
 						int rangold = RandomValue(10, 20);
 						Player_->gainGold(rangold);
 						LootItem(Player_);
-						cout << rangold << " 골드 획득!" << endl << "현재 골드 : " << Player_->getGold() << ", Exp : " << Player_->getExp() << " / 100" << endl;
+						cout << rangold << " 골드 획득!" << endl
+							<< "현재 골드 : " << Player_->getGold() << ", Exp : " << Player_->getExp() << " / 100" << endl;
 
 						delete enemy;
 						enemy = nullptr;
 						break;
 					}
 
-					// 몬스터 턴
-					cout << "\n" << enemy->getName() << "의 턴입니다!" << endl;
-					Player_->takeDamage(enemy->getAttack());
-					cout << enemy->getName() << "이(가) " << Player_->getName() << "을(를) 공격했다!\n" << endl;
-					cout << Player_->getName() << "의 남은 HP: " << Player_->getHealth() << endl;
-
-					// 플레이어 생존 확인
-					if (Player_->getHealth() <= 0) {
-						cout << "\n" << Player_->getName() << "이(가) 쓰러졌다! 게임 오버!/n" << endl;
-						delete Player_;
-						Player_ = nullptr;
-						break;
-					}
-
-					turnCount++;
-					if (dynamic_cast<Human*>(enemy)) {
-				        cout << enemy->getName() << "이(가) 쓰러졌다! 축하합니다! 이제 이 세계는"<< Player_->getName()<<"(의)것 입니다-!"<< endl;
-				        delete enemy;
-				        enemy = nullptr;
-				        exit(0); // 보스 몬스터에게 이길시 프로그램 종료
-                                 }
 			    }
 				break;
 			}
