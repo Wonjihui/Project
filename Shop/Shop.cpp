@@ -98,7 +98,7 @@ void Shop::SellItem(int idx, Character* player)
 
 	cout << "보유중인 아이템 :" << endl;
 	GameManager* InvenDiplay = new GameManager();
-	InvenDiplay->DisplayInven(player);
+	InvenDiplay->DisplayInvenSell(player);
 
 	cout << "판매할 아이템을 선택하세요" << endl;
 	cout << "1: 개 껌" << endl;
