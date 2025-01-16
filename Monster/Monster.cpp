@@ -150,3 +150,4 @@ void Human::takeDamage(int damage)
 	}
 }
 
+//test
