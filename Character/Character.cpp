@@ -34,7 +34,7 @@ void Character::displayStats() const {
 
 void Character::gainExperience() {
 	experience_ += 50;
-	std::cout << name_ << " 은(는) 경험치 " << 50 << " 을 얻었다!" << std::endl;
+	std::cout << name_ << " 은(는) 경험치 " << 50 << " 을 얻었다!\n" << std::endl;
 
 	if (experience_ >= 100) {
 		levelUp(experience_ / 100);
