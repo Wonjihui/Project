@@ -191,7 +191,8 @@ void GameManager::battle(Character* player)
 						int rangold = RandomValue(10, 20);
 						Player_->gainGold(rangold);
 						Player_->gainExperience();
-						cout << Player_->getName() << "이(가) 50EXP와 " << rangold << "골드를 획득했습니다. 현재 골드: " << Player_->getGold() << ", Exp: " << Player_->getExp() << "/100" << endl;
+						LootItem(Player_);
+						cout << "현재 골드 : " << Player_->getGold() << ", Exp : " << Player_->getExp() << " / 100" << endl;
 
 						delete enemy;
 						enemy = nullptr;
@@ -253,7 +254,7 @@ void GameManager::battle(Character* player)
 
 void GameManager::LootItem(Character* player)
 {
-	cout << player->getName() << "가 전리품을 챙겼습니다!" << endl << endl;
+	cout << endl << "* " << player->getName() << "가 전리품을 챙겼습니다! *" << endl;
 	player->gainItem(RandomValue(1, 100));
 	player->gainExperience(); //50exp 고정
 	player->gainGold(RandomValue(10, 20));

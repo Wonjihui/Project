@@ -33,8 +33,6 @@ void Character::displayStats() const
 void Character::gainExperience() 
 {
 	experience_ += 50;
-	std::cout << name_ << " 은(는) 경험치 " << 50 << " 을 얻었다!" << std::endl;
-
 	if (experience_ >= 100) 
 	{
 		levelUp(experience_ / 100);
@@ -142,12 +140,12 @@ void Character::gainItem(int value)
 	{
 		if (value <= 50) {
 			inventory_.emplace_back(new HealthItem("개 껌", 50));
-			cout << "개 껌 획득" << endl;
+			cout << "* 개 껌 획득 *" << endl <<endl;
 		}
 		else if (value > 50)
 		{
 			inventory_.emplace_back(new AttackBoost("사료", 10));
-			cout << "사료 획득" << endl;
+			cout << "* 사료 획득 *" << endl << endl;
 		}
 	}
 }
