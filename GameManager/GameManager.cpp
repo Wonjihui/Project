@@ -209,6 +209,8 @@ void GameManager::battle(Character* player)
 						cout << Player_->getName() << "이(가) " << enemy->getName() << "을(를) 공격했다! " << enemy->getName() << "의 남은 HP: 0" << endl;
 						cout << enemy->getName() << "이(가) 쓰러졌다! 승리!" << endl;
 						Player_->setTotalKillMonster();
+						int rangold = RandomValue(10, 20);
+						Player_->gainGold(rangold);
 						LootItem(Player_);
 						cout << rangold << " 골드 획득!" << endl << "현재 골드 : " << Player_->getGold() << ", Exp : " << Player_->getExp() << " / 100" << endl;
 
