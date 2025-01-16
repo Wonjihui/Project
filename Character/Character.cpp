@@ -165,17 +165,22 @@ void Character::gainItem(int value) {
 }
 void Character::deleteItem(int value)
 {
-	if (value <= 50) {
-		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) { return dynamic_cast<HealthItem*>(i) != nullptr; });
-		if (it != inventory_.end()) {
+	if (value <= 50)
+	{
+		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) {return dynamic_cast<HealthItem*>(i) != nullptr; });
+		if (it != inventory_.end())
+		{
 			inventory_.erase(it);
+			inventory_.shrink_to_fit();
 		}
 	}
 	else if (value > 50 && value <= 100)
 	{
-		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) { return dynamic_cast<AttackBoost*>(i) != nullptr; });
-		if (it != inventory_.end()) {
+		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) {return dynamic_cast<AttackBoost*>(i) != nullptr; });
+		if (it != inventory_.end())
+		{
 			inventory_.erase(it);
+			inventory_.shrink_to_fit();
 		}
 	}
 	else
@@ -183,6 +188,7 @@ void Character::deleteItem(int value)
 		auto it = find_if(inventory_.begin(), inventory_.end(), [](Item* i) { return dynamic_cast<ReviveStone*>(i) != nullptr; });
 		if (it != inventory_.end()) {
 			inventory_.erase(it);
+			inventory_.shrink_to_fit();
 		}
 	}
 }

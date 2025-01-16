@@ -22,7 +22,7 @@ public:
     virtual void use(Character* character) = 0;
 };
 
-class HealthItem : public Item 
+class HealthItem : public Item
 {
 public:
     HealthItem(const std::string& name, int restoreValue);
@@ -30,16 +30,14 @@ public:
 };
 
 
-class AttackBoost : public Item 
+class AttackBoost : public Item
 {
 public:
     AttackBoost(const std::string& name, int boostValue);
     void use(Character* character) override;
 };
 
-class ReviveStone : public Item
-{
-
+class ReviveStone : public Item { // 새로 추가
 public:
     ReviveStone(const std::string& name, int ReviveValue);
     void use(Character* character) override;

@@ -15,7 +15,7 @@ void GameManager::DisplayInven(Character* player)
 	int gold = player->getGold();
 	__int64 HPItemcount;
 	__int64 ATKItemcount;
-	__int64 RVVItemcount;
+	__int64 RVVItemcount; // 부활석
 	FindItem(player, &HPItemcount, &ATKItemcount, &RVVItemcount);
 
 	cout << endl;
@@ -25,7 +25,7 @@ void GameManager::DisplayInven(Character* player)
 	cout << "| 재화: " << gold << "골드                   |" << endl;
 	cout << "| 개 껌: " << HPItemcount << "                      |" << endl;
 	cout << "| 사 료: " << ATKItemcount << "                      |" << endl;
-	cout << "| 부활석: " << ATKItemcount << "                      |" << endl;
+	cout << "| 부활석 :" << RVVItemcount << "                      |" << endl;
 	cout << "+-------------------------------+" << endl;
 
 	if (HPItemcount > 0 || ATKItemcount > 0)
@@ -82,9 +82,9 @@ void GameManager::DisplayInven(Character* player)
 void GameManager::UseItem(Character* player, const string& itemType)
 {
 	vector<Item*>& inventory = player->getInventory();
-	auto it = find_if(inventory.begin(), inventory.end(), [&](Item* i) 
+	auto it = find_if(inventory.begin(), inventory.end(), [&](Item* i)
 		{
-		return i->getType() == itemType;
+			return i->getType() == itemType;
 		});
 
 	if (it != inventory.end())
