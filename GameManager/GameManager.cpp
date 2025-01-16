@@ -15,7 +15,8 @@ void GameManager::DisplayInven(Character* player)
 	int gold = player->getGold();
 	__int64 HPItemcount;
 	__int64 ATKItemcount;
-	FindItem(player, &HPItemcount, &ATKItemcount);
+	__int64 RVVItemcount; // 부활석
+	FindItem(player, &HPItemcount, &ATKItemcount, &RVVItemcount);
 
 	cout << endl;
 	cout << "+-------------------------------+" << endl;
@@ -24,6 +25,7 @@ void GameManager::DisplayInven(Character* player)
 	cout << "| 재화: " << gold << "골드                   |" << endl;
 	cout << "| 개 껌: " << HPItemcount << "                      |" << endl;
 	cout << "| 사 료: " << ATKItemcount << "                      |" << endl;
+	cout << "| 부활석 :" << RVVItemcount << "                      |" << endl;	
 	cout << "+-------------------------------+" << endl;
 
 	if (HPItemcount > 0 || ATKItemcount > 0)
@@ -190,7 +192,6 @@ void GameManager::battle(Character* player)
 						Player_->setTotalKillMonster();
 						int rangold = RandomValue(10, 20);
 						Player_->gainGold(rangold);
-						Player_->gainExperience();
 						LootItem(Player_);
 						cout << "현재 골드 : " << Player_->getGold() << ", Exp : " << Player_->getExp() << " / 100" << endl;
 
@@ -260,10 +261,11 @@ void GameManager::LootItem(Character* player)
 	player->gainGold(RandomValue(10, 20));
 }
 
-int GameManager::FindItem(Character* player, __int64* HPItemcount, __int64* ATKItemcount)
+int GameManager::FindItem(Character* player, __int64* HPItemcount, __int64* ATKItemcount, __int64* RVVItemcount)
 {
 	vector<Item*> item = player->getInventory();
 	*HPItemcount = count_if(item.begin(), item.end(), [](Item* i) { return dynamic_cast<HealthItem*>(i) != nullptr; });
 	*ATKItemcount = count_if(item.begin(), item.end(), [](Item* i) { return dynamic_cast<AttackBoost*>(i) != nullptr; });
+	*RVVItemcount = count_if(item.begin(), item.end(), [](Item* i) { return dynamic_cast<ReviveStone*>(i) != nullptr; });
 	return 0;
 }
