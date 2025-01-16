@@ -282,7 +282,13 @@ void GameManager::battle(Character* player)
 					}
 
 					turnCount++;
-				}
+					if (dynamic_cast<Human*>(enemy)) {
+				        cout << enemy->getName() << "이(가) 쓰러졌다! 축하합니다! 이제 이 세계는"<< Player_->getName()<<"(의)것 입니다-!"<< endl;
+				        delete enemy;
+				        enemy = nullptr;
+				        exit(0); // 보스 몬스터에게 이길시 프로그램 종료
+                                 }
+			    }
 				break;
 			}
 			case 2:
