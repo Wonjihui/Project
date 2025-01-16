@@ -12,6 +12,7 @@ class GameManager
 public:
     GameManager();
     void DisplayInven(Character* player);
+    bool DisplayDie(Character* player);
     void DisplayInvenSell(Character* player);
     void UseItem(Character* player, const std::string& itemType);
     int RandomValue(int min, int max);

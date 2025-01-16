@@ -1,4 +1,4 @@
-#include "GameManager.h"
+﻿#include "GameManager.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -15,7 +15,7 @@ void GameManager::DisplayInven(Character* player)
 	int gold = player->getGold();
 	__int64 HPItemcount;
 	__int64 ATKItemcount;
-	__int64 RVVItemcount;
+	__int64 RVVItemcount; // 부활석
 	FindItem(player, &HPItemcount, &ATKItemcount, &RVVItemcount);
 
 	cout << endl;
@@ -25,14 +25,14 @@ void GameManager::DisplayInven(Character* player)
 	cout << "| 재화: " << gold << "골드                   |" << endl;
 	cout << "| 개 껌: " << HPItemcount << "                      |" << endl;
 	cout << "| 사 료: " << ATKItemcount << "                      |" << endl;
-	cout << "| 부활석: " << ATKItemcount << "                     |" << endl;
+	cout << "| 부활석 :" << RVVItemcount << "                      |" << endl;	
 	cout << "+-------------------------------+" << endl;
 
 	if (HPItemcount > 0 || ATKItemcount > 0)
 	{
 		int choice;
 		cout << "+-------------------------------+" << endl;
-		cout << "|   아이템을 사용하시겠습니까?  |" << endl;
+		cout << "|   아이템을 사용하시겠습니까?   |" << endl;
 		cout << "+-------------------------------+" << endl;
 		cout << "| 1. 개껌 사용                  |" << endl;
 		cout << "| 2. 사료 사용                  |" << endl;
@@ -78,6 +78,55 @@ void GameManager::DisplayInven(Character* player)
 		cout << "사용할 아이템이 없습니다!" << endl;
 	}
 }
+bool GameManager::DisplayDie(Character* player) //죽었을때
+{
+	__int64 HPItemcount;
+	__int64 ATKItemcount;
+	__int64 RVVItemcount; // 부활석
+	FindItem(player, &HPItemcount, &ATKItemcount, &RVVItemcount);
+
+	cout << endl;
+	cout << "+-------------------------------+" << endl;
+	cout << "|         [ GAME OVER ]          |" << endl;
+	cout << "+-------------------------------+" << endl;
+	cout << "| 부활석 :" << RVVItemcount << "                      |" << endl;
+	cout << "+-------------------------------+" << endl;
+
+	if (RVVItemcount > 0)
+	{
+		int choice;
+		cout << "+-------------------------------+" << endl;
+		cout << "|   부활석을 사용하시겠습니까?   |" << endl;
+		cout << "+-------------------------------+" << endl;
+		cout << "| 1. 부활석 사용                  |" << endl;
+		cout << "| 2. 포기 하기                   |" << endl;
+		cout << "+-------------------------------+" << endl;
+		cin >> choice;
+
+		switch (choice)
+		{
+		case 1: // 부활석 사용	
+				UseItem(player, "revive");
+				return true;
+
+		case 2: // 포기하기			
+			cout << "세계정복을 포기합니다.." << endl;
+			return false;
+
+
+		default:
+			cout << "잘못된 입력입니다. 포기 처리 됩니다!" << endl;
+			return false;
+		}
+	}
+	else
+	{
+		cout << "사용할 아이템이 없습니다!" << endl;
+		
+        return false; 
+	}
+}
+
 
 void GameManager::DisplayInvenSell(Character* player)
 {
@@ -97,6 +146,8 @@ void GameManager::DisplayInvenSell(Character* player)
 	cout << "| 부활석 :" << RVVItemcount << "                      |" << endl;
 	cout << "+-------------------------------+" << endl;
 }
+
+
 
 void GameManager::UseItem(Character* player, const string& itemType)
 {
@@ -173,117 +224,76 @@ void GameManager::battle(Character* player)
 
 		switch (move)
 		{
-		case 1: // 몬스터 전투
+		case 1: // 몬스터와 전투
 		{
-			cout << "앞으로 이동 중..." << endl << endl;
-			Monster* enemy = nullptr;
-			if (Player_->getLevel() < 10)
-			{
-				enemy = generateMonster(Player_->getLevel());
-				cout << "앗! " << enemy->getName() << "가 나타났다!" << endl << endl;
-			}
-			else
-			{
-				enemy = generateBossMonster(Player_->getLevel());
-				cout << "마지막이군... " << enemy->getName() << "가 나타났다!" << endl << endl;
-			}
-
-			cout << enemy->getName() << "의 능력치 - HP: " << enemy->getHealth() << " ATK: " << enemy->getAttack() << endl << endl;
-			cout << "용맹하게 싸우기! : 1" << endl;
-			cout << "꼬리 말고 도망치기... : 2" << endl;
+			cout << endl <<"앞으로 이동 중..." << endl << endl;
+			cout << "몬스터를 만났습니다!" << endl << endl;
+			cout << "전투: 1 | 도망: 2" << endl;
 			cin >> move;
 			switch (move)
 			{
 			case 1:
 			{
-				int turnCount = 1;
+				Monster* enemy = nullptr;
+
+				if (Player_->getLevel() < 10)
+				{
+					// 일반 몬스터 생성
+					enemy = generateMonster(Player_->getLevel());
+					cout << "몬스터 " << enemy->getName() << " 이(가) 나타났습니다!" << endl;
+				}
+				else
+				{
+					// 보스 몬스터 생성
+					enemy = generateBossMonster(Player_->getLevel());
+					cout << "보스 몬스터 " << enemy->getName() << " 이(가) 나타났습니다!" << endl;
+				}
+
+				cout << enemy->getName() << " HP: " << enemy->getHealth() << " ATK: " << enemy->getAttack() << endl << endl;
+
 				while (enemy != nullptr && Player_ != nullptr && enemy->getHealth() > 0 && Player_->getHealth() > 0)
 				{
-					cout << "=====Turn" << turnCount << "=====" << endl;
-
-					cout << "\n[현재 상태]" << endl;
-					cout << Player_->getName() << " - HP: " << Player_->getHealth() << endl;
-					cout << enemy->getName() << " - HP: " << enemy->getHealth() << endl << endl;
-
-					cout << "당신의 턴입니다!\n" << endl;
-					cout << "1. 일반 공격" << endl;
-					cout << "2. 아이템 사용" << endl;
-					cout << "3. 도망가기" << endl;
-					cout << "선택:\n ";
-					int choice;
-					cin >> choice;
-
-					switch (choice) {
-					case 1:
+					// 캐릭터가 몬스터 공격
+					enemy->takeDamage(Player_->getAttack());
+					if (enemy->getHealth() <= 0)//몬스터 죽었을때
 					{
-						enemy->takeDamage(Player_->getAttack());
-						cout << Player_->getName() << "이(가) " << enemy->getName() << "을(를) 공격했다!\n" << endl;
-						cout << enemy->getName() << "의 남은 HP:\n " << max(0, enemy->getHealth()) << endl;
-						break;
-					}
-					case 2: // 아이템 사용
-					{
-						__int64 HPItemcount, ATKItemcount, RVVItemcount;
-						FindItem(Player_, &HPItemcount, &ATKItemcount, &RVVItemcount);
-						cout << "\n사용할 아이템을 선택하세요:" << endl;
-						cout << "1. 개껌 (HP회복) - " << HPItemcount << "개 보유중" << endl;
-						cout << "2. 사료 (공격력증가) - " << ATKItemcount << "개 보유중" << endl;
-						cout << "3. 돌아가기" << endl;
-						int itemChoice;						
-
-						cin >> itemChoice;
-
-						break;
-					}
-					case 3:
-					{
-						if (RandomValue(1, 100) <= 30) {
-							cout << Player_->getName() << "은(는) 도망치는데 성공했다!" << endl;
-							delete enemy;
-							return;
-						}
-						else {
-							cout << Player_->getName() << "은(는) 도망치지 못했다!" << endl;
-						}
-						break;
-					}
-					default:
-						cout << "잘못된 선택입니다. 턴을 넘깁니다." << endl;
-						break;
-					}
-
-					if (enemy->getHealth() <= 0) {
-						cout << Player_->getName() << "이(가) " << enemy->getName() << "을(를) 공격했다! " << enemy->getName() << "의 남은 HP: 0\n" << endl;
-						cout << enemy->getName() << "이(가) 쓰러졌다!" << endl;
-
-						
-						if (dynamic_cast<Human*>(enemy)) {
-							cout << enemy->getName() << "이(가) 쓰러졌다! 축하합니다! 이제 이 세계는 "
-								<< Player_->getName() << "(의) 것입니다!" << endl;
-							delete enemy; 
-							enemy = nullptr;
-							exit(0); // 보스 몬스터에게 이길시 프로그램 종료
-						}
-
-						
+						cout << Player_->getName() << "이(가) " << enemy->getName() << "을(를) 공격했다! " << enemy->getName() << "의 남은 HP: 0" << endl;
+						cout << enemy->getName() << "이(가) 쓰러졌다! 승리!" << endl;
 						Player_->setTotalKillMonster();
 						int rangold = RandomValue(10, 20);
 						Player_->gainGold(rangold);
 						LootItem(Player_);
-						cout << rangold << " 골드 획득!" << endl
-							<< "현재 골드 : " << Player_->getGold() << ", Exp : " << Player_->getExp() << " / 100" << endl;
+						cout << rangold << " 골드 획득!" << endl << "현재 골드 : " << Player_->getGold() << ", Exp : " << Player_->getExp() << " / 100" << endl;
 
 						delete enemy;
 						enemy = nullptr;
 						break;
 					}
+					else
+					{
+						cout << Player_->getName() << "이(가) " << enemy->getName() << "을(를) 공격했다! " << enemy->getName() << "의 남은 HP: " << enemy->getHealth() << endl;
+					}
 
-			    }
+
+
+
+					// 몬스터가 캐릭터 공격
+					Player_->takeDamage(enemy->getAttack());
+					cout << enemy->getName() << "이(가) " << Player_->getName() << "을(를) 공격했다! " << Player_->getName() << "의 남은 HP: " << Player_->getHealth() << endl;
+
+					if (Player_->getHealth() <= 0) //캐릭터 죽었을때
+					{
+						cout << Player_->getName() << "이(가) 쓰러졌다! 게임 오버!" << endl;
+						delete Player_;
+						Player_ = nullptr;
+						break;
+					}
+				}
 				break;
 			}
 			case 2:
 			{
-				cout << player->getName() << "은(는) 꼬리를 말고 도망쳤다!" << endl;
+				cout << player->getName() << "은(는) 도망쳤다!" << endl;
 				break;
 			}
 			default:

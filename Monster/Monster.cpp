@@ -146,6 +146,7 @@ void Human::takeDamage(int damage)
 	if (health <= 0)
 	{
 		std::cout << "축하합니다! 게임 엔딩을 보셨습니다!" << std::endl;
+		exit(0);
 	}
 }
 

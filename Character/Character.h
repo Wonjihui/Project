@@ -5,7 +5,6 @@
 #include <vector>
 #include <iostream>
 #include "../Item/Item.h"
-
 class Item;
 
 class Character {

@@ -1,4 +1,5 @@
 ﻿#include "Character.h"
+#include "../GameManager/GameManager.h"
 #include <iostream>
 
 using namespace std;
@@ -111,14 +112,25 @@ void Character::setAttack(int attack)
 
 void Character::takeDamage(int damage) 
 {
-	health_ -= damage;
-	if (health_ <= 0) 
-	{
-		health_ = 0;
-		cout << "캐릭터가 사망했습니다!" << endl;
-
-			exit(0); // 게임 종료
+    health_ -= damage;
+    if (health_ <= 0) 
+    {
+        health_ = 0;
+        cout << "캐릭터가 사망했습니다!" << endl;
+        GameManager* InvenDiplay = new GameManager();
+		bool useResurrectionStone = InvenDiplay->DisplayDie(this);
+		
+		if (useResurrectionStone)
+		{
+			// 부활 체력200설정
 		}
+		else
+		{
+			cout << "게임이 종료 됩니다" << endl;
+			exit(0);// 게임 종료
+		}
+		delete InvenDiplay;
+	}
 }
 
 
@@ -148,6 +160,11 @@ void Character::gainItem(int value) {
 		{
 			inventory_.emplace_back(new AttackBoost("사료", 10));
 			cout << "* 사료 획득 *" << endl << endl;
+		}
+		else
+		{
+			inventory_.emplace_back(new ReviveStone("부활석", 100));
+			cout << "* 부활석 획득 *" << endl;
 		}
 	}
 }
