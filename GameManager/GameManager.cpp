@@ -257,8 +257,17 @@ void GameManager::battle(Character* player)
 					enemy->takeDamage(Player_->getAttack());
 					if (enemy->getHealth() <= 0)//몬스터 죽었을때
 					{
+						if (dynamic_cast<Human*>(enemy))
+						{
+							cout << enemy->getName() << "이(가) 쓰러졌다! 축하합니다! 이제 이 세계는 "
+								<< Player_->getName() << "(의) 것입니다!" << endl;
+							delete enemy;
+							enemy = nullptr;
+							exit(0); // 보스 몬스터에게 이길시 프로그램 종료
+						}
 						cout << Player_->getName() << "이(가) " << enemy->getName() << "을(를) 공격했다! " << enemy->getName() << "의 남은 HP: 0" << endl;
 						cout << enemy->getName() << "이(가) 쓰러졌다! 승리!" << endl;
+
 						Player_->setTotalKillMonster();
 						int rangold = RandomValue(10, 20);
 						Player_->gainGold(rangold);
@@ -280,14 +289,7 @@ void GameManager::battle(Character* player)
 					// 몬스터가 캐릭터 공격
 					Player_->takeDamage(enemy->getAttack());
 					cout << enemy->getName() << "이(가) " << Player_->getName() << "을(를) 공격했다! " << Player_->getName() << "의 남은 HP: " << Player_->getHealth() << endl;
-
-					if (Player_->getHealth() <= 0) //캐릭터 죽었을때
-					{
-						cout << Player_->getName() << "이(가) 쓰러졌다! 게임 오버!" << endl;
-						delete Player_;
-						Player_ = nullptr;
-						break;
-					}
+										
 				}
 				break;
 			}
